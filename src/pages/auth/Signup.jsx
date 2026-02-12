@@ -1,12 +1,64 @@
-import React from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
+import axios from 'axios'
 
 const Signup = () => {
+
+  const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+});
+
+// A single function to update all fields
+const handleChange = (e) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+};
+
+const API_URL = import.meta.env.VITE_API_BASE_URL; 
+
+const handleSubmit = async (e) => {
+  e.preventDefault(); // Stops the page from reloading
+  
+  if (formData.password !== formData.confirmPassword) {
+    return alert("Passwords do not match!");
+  }
+
+  try {
+    const response = await axios.post(`${API_URL}/auth/signup`, {
+      email: formData.email,
+      password: formData.password
+      // Note: Your backend doc only mentioned email/password, 
+      // check if it needs 'name' too!
+    });
+    console.log("Success!", response.data);
+    showConfirmation();
+    // Redirect to login after successful signup
+  } catch (err) {
+    console.error("Signup error", err.response?.data);
+  }
+};
+
+
+// Confirmation Message
+
+function showConfirmation() {
+  const message = document.getElementById('confirmMessage');
+  message.classList.remove('hidden');
+  setTimeout(() => {
+    message.classList.add('hidden');
+  }, 3000);
+}
+
+
+
+
   return (
     <div className='w-full min-h-screen bg-gray-100 flex flex-col px-4'>
         <form 
-          method="POST" 
+          onSubmit={handleSubmit}
           className='max-w-md w-full mx-auto mt-12 md:mt-20 p-6 bg-white rounded-md shadow-md flex flex-col justify-center space-y-6'
         >
             <div className='flex items-center justify-center text-orange-400 w-24 h-24 p-3 rounded-full bg-gray-100 mx-auto'>
@@ -20,28 +72,28 @@ const Signup = () => {
             <div className='mt-4'>
                  <div className='flex flex-col space-y-1 mb-4'>
                     <label htmlFor="name" className='text-gray-600 font-semibold'>Full Name</label>
-                    <input type="text" name="name" id="name"
+                    <input type="text" name="fullName" id="name" 
                       className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
                     />
                 </div>
 
                 <div className='flex flex-col space-y-1 mb-4'>
                     <label htmlFor="email" className='text-gray-600 font-semibold'>Email</label>
-                    <input type="email" name="email" id="email"
+                    <input type="email" name="email" id="email" value={formData.email} onChange={handleChange} required 
                       className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
                     />
                 </div>
 
                 <div className='flex flex-col space-y-1 mb-4'>
                     <label htmlFor="password" className='text-gray-600 font-semibold'>Password</label>
-                    <input type="password" name="password" id="password"
+                    <input type="password" name="password" id="password" value={formData.password} onChange={handleChange} required 
                       className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
                     />
                 </div>
 
                 <div className='flex flex-col space-y-1 mb-4'>
                     <label htmlFor="confirmPassword" className='text-gray-600 font-semibold'>Confirm Password</label>
-                    <input type="password" name="confirmPassword" id="confirmPassword"
+                    <input type="password" name="confirmPassword" id="confirmPassword" value={formData.confirmPassword} onChange={handleChange}  required 
                       className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
                     />
                 </div>
@@ -61,6 +113,12 @@ const Signup = () => {
                 </Link>
             </div>
         </form>
+
+
+        {/* Confirmation message */}
+        <div id='confirmMessage' className='hidden absolute top-5 justify-center items-center bg-white text-green-500 px-6 py-3 rounded-lg mx-auto shadow-md'>
+            <span>Account Created Successfully!</span>
+        </div>
     </div>
   )
 }

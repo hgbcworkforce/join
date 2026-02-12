@@ -1,12 +1,36 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
+import { useState } from 'react';
+import axios from 'axios';
 
 const Signin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Stop page refresh
+    try {
+      const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
+      
+      // 1. Save the token to local storage
+      localStorage.setItem("token", response.data.accessToken);
+      
+      // 2. Send user to the dashboard
+      navigate('/dashboard'); 
+    } catch (error) {
+      // 3. Handle errors (e.g., wrong password)
+      alert(error.response?.data?.message || "Login failed. Please check your details.");
+    }
+  };
+
+
   return (
     <div className='w-full min-h-screen bg-gray-100 flex flex-col px-4'>
       <form 
         method="POST" 
+        onSubmit={handleLogin}
         className='max-w-md w-full mx-auto mt-12 md:mt-20 p-6 bg-white rounded-md shadow-md flex flex-col justify-center space-y-6'
       >
         <div className='flex items-center justify-center text-orange-400 w-24 h-24 p-3 rounded-full bg-gray-100 mx-auto'>
@@ -26,6 +50,8 @@ const Signin = () => {
               type="email" 
               name="email" 
               id="email"
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)}
               className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
             />
           </div>
@@ -38,6 +64,8 @@ const Signin = () => {
               type="password" 
               name="password" 
               id="password"
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
               className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
             />
           </div>

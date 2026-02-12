@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import Sidebar from '../layouts/Sidebar'
 import Header from '../layouts/Header'
-import Overview from '../pages/dashboard/Overview'
+
 
 const DashboardLayout = () => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -18,7 +19,7 @@ const DashboardLayout = () => {
 
           {/* Main Content */}
           <main className='flex-1 overflow-y-auto p-6 md:p-8 flex-1'>
-            <Overview />
+            <Outlet/>
           </main>
 
         {/* Footer */}
