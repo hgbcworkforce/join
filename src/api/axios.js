@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  // baseURL: "https://firsttimer-u8aa.onrender.com/api",
 });
 
 // Automatically add the token to every request
