@@ -12,6 +12,7 @@ const Signin = () => {
 const handleLogin = async (e) => {
   e.preventDefault();
   try {
+    console.log("Hitting URL:", `${API_URL}/auth/signin`);
     const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
     
     // The change is here: response.data is the whole JSON, 
