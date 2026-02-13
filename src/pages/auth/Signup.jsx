@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
-import axios from 'axios'
+import API from '../../api/api'
 
 const Signup = () => {
 
   const [formData, setFormData] = useState({
-  name: '',
+  fullName: '',
   email: '',
   password: '',
   confirmPassword: ''
@@ -17,7 +17,8 @@ const handleChange = (e) => {
   setFormData({ ...formData, [e.target.name]: e.target.value });
 };
 
-const API_URL = import.meta.env.VITE_API_BASE_URL; 
+// const API_URL = import.meta.env.VITE_API_BASE_URL; 
+const API_URL = API.getBaseURL(); // Using the helper function from api.js
 
 const handleSubmit = async (e) => {
   e.preventDefault(); // Stops the page from reloading
@@ -27,7 +28,8 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const response = await axios.post(`${API_URL}/auth/signup`, {
+    const response = await API.post('/auth/signup', {
+      // name: formData.fullName,
       email: formData.email,
       password: formData.password
       // Note: Your backend doc only mentioned email/password, 

@@ -1,9 +1,8 @@
-import Reac from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaArrowRightFromBracket, FaUserGroup, FaChartBar } from "react-icons/fa6";
 import Logo from '../assets/logo.png'
 
-const Sidebar = ({ isExpanded, setIsExpanded }) => {
+const Sidebar = ({ isExpanded }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
   localStorage.removeItem("token"); // Destroy the session
