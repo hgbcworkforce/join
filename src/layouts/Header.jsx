@@ -19,13 +19,13 @@ const Header = ({ isExpanded, setIsExpanded }) => {
       <div className='flex flex-row justify-between items-center mx-auto w-full'>
         <h1 className='text-gray-800 text-xl md:text-2xl font-bold'>Welcome, Username</h1>
         <div className='hidden md:flex flex-row space-x-4 justify-end items-center'>
-          <div>
+          {/* <div>
             <FaBell className='text-gray-700 text-2xl' />
           </div>
 
           <div className='bg-gray-100 flex justify-center p-3 h-12 w-12 rounded-full'>
             <FaUser className='text-gray-700 text-2xl' />
-          </div>
+          </div> */}
 
         </div>
       </div>
