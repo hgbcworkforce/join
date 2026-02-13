@@ -18,12 +18,10 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
 
-        console.log("Interceptor caught error:", error.response?.status);
-    console.log("Error details:", error.response?.data);
 
     if (error.response?.status === 401) {
-     // localStorage.removeItem("token");
-      //window.location.href = "/signin"; // Force redirect on expired token
+     localStorage.removeItem("token");
+      window.location.href = "/signin"; // Force redirect on expired token
     }
     return Promise.reject(error);
   }

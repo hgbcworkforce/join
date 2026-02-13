@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import API from '../../api/axios';
 import SubmissionModal from '../../components/dashboard/SubmissionModal';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 const Submissions = () => {
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,7 +76,7 @@ const Submissions = () => {
                     </div>
                   </td>
                 </tr>
-              ) : data.length > 0 ? (
+              ) : Array.isArray(data) && data.length > 0 ? (
                 data.map((submission) => (
                   <tr key={submission.id} className='hover:bg-gray-50 transition-all duration-200'>
                     <td className='px-6 py-4 whitespace-nowrap hover:underline cursor-pointer' onClick={() => setSelectedSubmission(submission)}>
