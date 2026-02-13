@@ -21,8 +21,8 @@ jobs:
       
       - name: Install dependencies and build
         env:
-            # This maps the GitHub Secret to the environment variable Vite needs
-            VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+            # This maps the GitHub Repository Variiable to the environment variable Vite needs
+            VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
         run: |
           npm ci
           npm run build
