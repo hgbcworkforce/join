@@ -15,7 +15,7 @@ const Signin = () => {
       const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
       
       // 1. Save the token to local storage
-      localStorage.setItem("token", response.data.accessToken);
+      localStorage.setItem("token", response.data.token || response.data.accessToken);
       
       // 2. Send user to the dashboard
       navigate('/dashboard'); 
