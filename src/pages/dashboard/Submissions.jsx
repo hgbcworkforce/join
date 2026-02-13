@@ -21,7 +21,7 @@ const Submissions = () => {
       setLoading(true); // Start loading
       try {
         const res = await API.get(`/first-timers?page=${currentPage}&limit=${recordsPerPage}`);
-        setData(res.data);
+        setData(res.data.data);
 
         const totalHeader = res.headers["x-total-count"] || res.headers["X-Total-Count"];
         if (totalHeader) setTotalRecords(Number(totalHeader));

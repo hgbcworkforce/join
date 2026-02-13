@@ -14,22 +14,20 @@ const handleLogin = async (e) => {
   try {
     const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
     
-    // DEBUG: See what the structure is
-    console.log("Login Response:", response.data);
-
-    const token = response.data.token || response.data.accessToken || response.data.data?.token;
+    // The change is here: response.data is the whole JSON, 
+    // so we need response.data.data.accessToken
+    const token = response.data.data?.accessToken;
 
     if (token) {
       localStorage.setItem("token", token);
       navigate('/dashboard'); 
     } else {
-      console.error("Token not found in response body");
+      console.error("Token missing in response structure:", response.data);
     }
   } catch (error) {
     alert(error.response?.data?.message || "Login failed.");
   }
 };
-
 
   return (
     <div className='w-full min-h-screen bg-gray-100 flex flex-col px-4'>
