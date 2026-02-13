@@ -7,11 +7,19 @@ const API = axios.create({
 // Automatically add the token to every request
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) {
-    config.headers["x-access-token"] = token;
+  
+  // Check if token exists and isn't the string "undefined"
+  if (token && token !== "undefined") {
+    // Use the header your backend actually expects
+    config.headers["Authorization"] = `Bearer ${token}`; 
+    // OR keep your custom one if you're sure:
+    // config.headers["x-access-token"] = token;
   }
   return config;
+}, (error) => {
+  return Promise.reject(error);
 });
+
 
 // Handle global errors (like 401 Unauthorized)
 API.interceptors.response.use(
