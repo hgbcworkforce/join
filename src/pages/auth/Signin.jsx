@@ -1,23 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
 import { useState } from 'react';
-import axios from 'axios';
+import API from '../../api/axios';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    console.log("Hitting URL:", `${API_URL}/auth/signin`);
-    const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
-    
-    // The change is here: response.data is the whole JSON, 
-    // so we need response.data.data.accessToken
-    const token = response.data.data?.accessToken;
+e.preventDefault();
+    try {
+       
+        const response = await API.post('/auth/signin', { email, password });
+        
+        const token = response.data?.data?.accessToken;
 
     if (token) {
       localStorage.setItem("token", token);
