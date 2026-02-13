@@ -9,21 +9,26 @@ const Signin = () => {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const handleLogin = async (e) => {
-    e.preventDefault(); // Stop page refresh
-    try {
-      const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
-      
-      // 1. Save the token to local storage
-      localStorage.setItem("token", response.data.token || response.data.accessToken);
-      
-      // 2. Send user to the dashboard
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post(`${API_URL}/auth/signin`, { email, password });
+    
+    // DEBUG: See what the structure is
+    console.log("Login Response:", response.data);
+
+    const token = response.data.token || response.data.accessToken || response.data.data?.token;
+
+    if (token) {
+      localStorage.setItem("token", token);
       navigate('/dashboard'); 
-    } catch (error) {
-      // 3. Handle errors (e.g., wrong password)
-      alert(error.response?.data?.message || "Login failed. Please check your details.");
+    } else {
+      console.error("Token not found in response body");
     }
-  };
+  } catch (error) {
+    alert(error.response?.data?.message || "Login failed.");
+  }
+};
 
 
   return (
