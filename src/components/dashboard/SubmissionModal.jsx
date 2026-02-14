@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FaUser, FaGraduationCap, FaCheck, FaChurch, FaHandsPraying, FaCopy, FaX } from 'react-icons/fa6'
+import { FaUser, FaGraduationCap, FaCheck, FaChurch, FaHandsPraying, FaCopy } from 'react-icons/fa6'
 
 const SubmissionModal = ({ data, onClose }) => {
 
@@ -20,12 +20,12 @@ const SubmissionModal = ({ data, onClose }) => {
             <div
                 onClick={(e) => e.stopPropagation()}
                 className="relative bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl">
-                <button
+                {/* <button
                     onClick={onClose}
                     className="absolute top-4 right-4 cursor-pointer text-white hover:text-orange-600"
                 >
                     <FaX className='w-4 h-4' />
-                </button>
+                </button> */}
 
                 {/* 1. Profile Header Section */}
                 <div className='bg-gradient-to-r from-gray-800 to-gray-900 p-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-8'>

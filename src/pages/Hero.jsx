@@ -222,8 +222,9 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
 
       setTimeout(() => {
         setIsSubmitted(false);
+        
         Navigate("/");
-      }, 20000);
+      }, 30000);
  
     } catch (error) {
       console.error("Submission error:", error.response?.data || error.message || error);
