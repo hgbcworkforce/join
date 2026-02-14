@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaUser } from 'react-icons/fa'
-import API from '../../api/api'
+import API from '../../api/axios'
 
 const Signup = () => {
 
