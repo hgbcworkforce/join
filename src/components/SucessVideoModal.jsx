@@ -7,7 +7,7 @@ const SucessVideoModal = ({ isOpen = false, onClose = () => {} }) => {
     <>
       {/* Modal Overlay: covers screen and dims background */}
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/20 backdrop-blur-sm"
         onClick={onClose}
       >
         {/* Modal Content: the actual card */}

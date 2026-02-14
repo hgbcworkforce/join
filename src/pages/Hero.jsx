@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaYoutube, FaTiktok  } from "react-icons/fa6";
 import API from "./../api/axios";
 import { z } from "zod";
 import SucessVideoModal from "../components/SucessVideoModal";
+import { Navigate } from "react-router-dom";
 
 const Hero = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -11,6 +13,8 @@ const Hero = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
+
+ const Navigate = useNavigate();
 
   const totalSteps = 4;
 
@@ -36,61 +40,67 @@ const Hero = () => {
   prayerRequests: ""
   });
 
-const formSchema = z
+
+  const formSchema = z
   .object({
+    // 1. Always Required Fields
     fullName: z.string().min(1, "Full name is required"),
     gender: z.enum(["male", "female"], { required_error: "Gender is required" }),
-    dateOfBirth: z.string().min(1, "Date of birth is required"), 
+    dateOfBirth: z.string().min(1, "Date of birth is required"),
     phoneNumber: z.string().min(7, "Phone number is too short"),
     email: z.string().email("Invalid email address"),
     residenceAddress: z.string().min(1, "Residence address is required"),
-    status: z.enum(["student", "professional", "other"], { required_error: "Status is required" }),
-    studentLevel: z.string().min(1, "Level is required"),
-    studentFaculty: z.string().min(1, "Faculty is required"),
-    studentDepartment: z.string().min(1, "Department is required"),
-    studentInstitution: z.string().min(1, "Institution is required"),
-    professionalOrganization: z.string().optional(),
-    professionalOccupation: z.string().min(1, "Occupation is required"),
-    otherStatus: z.string().min(1, "Please specify your status"),
+    status: z.enum(["student", "professional", "other"], { 
+      required_error: "Status is required" 
+    }),
     howDidYouHear: z.string().min(1, "Please let us know how you heard about us"),
+
+    // 2. Conditional Fields (Marked optional here, enforced in superRefine)
+    studentLevel: z.string().optional(),
+    studentFaculty: z.string().optional(),
+    studentDepartment: z.string().optional(),
+    studentInstitution: z.string().optional(),
+    professionalOrganization: z.string().optional(),
+    professionalOccupation: z.string().optional(),
+    otherStatus: z.string().optional(),
+
+    // 3. Truly Optional Fields
     experienceToday: z.string().optional(),
     bestContactTime: z.string().optional(),
     preferredContactMethod: z.string().optional(),
     prayerRequests: z.string().optional(),
   })
-  // .check() is the modern alternative to superRefine for adding issues
-  .check((data, ctx) => {
+  .superRefine((data, ctx) => {
+    // Logic for Students
     if (data.status === "student") {
-      const studentFields = [
-        { key: "studentInstitution", msg: "Institution is required for students" },
-        { key: "studentFaculty", msg: "Faculty is required for students" },
-        { key: "studentDepartment", msg: "Department is required for students" },
-        { key: "studentLevel", msg: "Level is required for students" },
-        { key: "professionalOccupation", msg: "Occupation is required for professionals" },
-        { key: "professionalOrganization", msg: "Organization is required for professionals" },
-        { key: "otherStatus", msg: "Please specify your status" },
-        { key: "howDidYouHear", msg: "Please let us know how you heard about us" },
-      ];
-
-      studentFields.forEach(({ key, msg }) => {
-        if (!data[key]?.trim()) {
-          ctx.addIssue({ 
-            path: [key], 
-            code: z.ZodIssueCode.custom, 
-            message: msg 
-          });
-        }
-      });
+      if (!data.studentInstitution?.trim()) {
+        ctx.addIssue({ code: "custom", path: ["studentInstitution"], message: "Institution is required" });
+      }
+      if (!data.studentFaculty?.trim()) {
+        ctx.addIssue({ code: "custom", path: ["studentFaculty"], message: "Faculty is required" });
+      }
+      if (!data.studentDepartment?.trim()) {
+        ctx.addIssue({ code: "custom", path: ["studentDepartment"], message: "Department is required" });
+      }
+      if (!data.studentLevel?.trim()) {
+        ctx.addIssue({ code: "custom", path: ["studentLevel"], message: "Level is required" });
+      }
     }
 
+    // Logic for Professionals
+    if (data.status === "professional") {
+      if (!data.professionalOccupation?.trim()) {
+        ctx.addIssue({ code: "custom", path: ["professionalOccupation"], message: "Occupation is required" });
+      }
+      // Organization is optional based on your initial code, but you can add a check here if needed
+    }
+
+    // Logic for "Other" status
     if (data.status === "other" && !data.otherStatus?.trim()) {
-      ctx.addIssue({ 
-        path: ["otherStatus"], 
-        code: z.ZodIssueCode.custom, 
-        message: "Please specify your status" 
-      });
+      ctx.addIssue({ code: "custom", path: ["otherStatus"], message: "Please specify your status" });
     }
   });
+
 
 
 
@@ -209,6 +219,11 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
     try {
       await API.post("/first-timers", formData);
       setIsSubmitted(true);
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        Navigate("/");
+      }, 20000);
  
     } catch (error) {
       console.error("Submission error:", error.response?.data || error.message || error);
@@ -663,7 +678,7 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
                   >
                     Back
                   </button>
-<button 
+                  <button 
                   type="submit" 
                   disabled={isLoading}
                   className="w-full cursor-pointer border-0 bg-orange-600 text-white text-xl py-3 px-6 rounded-md hover:bg-orange-700 transition-colors duration-200 disabled:bg-gray-400"
@@ -706,11 +721,6 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
           >
             <FaTiktok className="w-6 h-6" />
           </a>
-        </div>
-
-                {/* Confirmation message */}
-        <div id='confirmMessage' className='hidden absolute top-5 justify-center items-center bg-white text-green-500 px-6 py-3 rounded-lg mx-auto shadow-md'>
-            <span>Account Created Successfully!</span>
         </div>
 
         <SucessVideoModal isOpen={isSubmitted} onClose={() => setIsSubmitted(false)} />
