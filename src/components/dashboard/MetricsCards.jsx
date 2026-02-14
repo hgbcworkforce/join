@@ -9,6 +9,7 @@ const MetricsCards = () => {
   const [loading, setLoading] = useState(true);
   const [topDiscoverySource, setTopDiscoverySource] = useState(null);
   const [topDiscoveryCount, setTopDiscoveryCount] = useState(0);
+  const [dailySubmission, setDailySubmission] = useState(0)
 
   const getTopDiscoverySource = (submissions) => {
     const sourceCounts = {};
@@ -35,6 +36,13 @@ const MetricsCards = () => {
     return { source: topSource, count: maxCount };
   };
 
+const getDailySubmissions = (submissions) => {
+  const today = new Date().toISOString().split('T')[0]; // Gets "YYYY-MM-DD"
+  return submissions.filter(sub => 
+    sub.createdAt?.split('T')[0] === today
+  ).length;
+};
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true); // Start loading
@@ -46,6 +54,9 @@ const MetricsCards = () => {
         const { source, count } = getTopDiscoverySource(res.data.data);
         setTopDiscoverySource(source);
         setTopDiscoveryCount(count);
+
+        // Get daily submissions
+        setDailySubmission(getDailySubmissions(res.data.data));
 
       } catch (error) {
         console.error("Fetch failed", error);
@@ -89,7 +100,7 @@ const MetricsCards = () => {
               Daily Submission
             </h3>
             <p className='text-gray-900 text-3xl font-extrabold tracking-tight'>
-              {data.length}
+             {dailySubmission}
             </p>
           </div>
           </div>

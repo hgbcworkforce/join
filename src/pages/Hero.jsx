@@ -413,9 +413,9 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
         onChange={handleChange}
       >
         <option value="">Select Status</option>
-        <option value="Student">Student</option>
-        <option value="Professional">Professional</option>
-        <option value="Other">Other</option>
+        <option value="student">Student</option>
+        <option value="professional">Professional</option>
+        <option value="other">Other</option>
       </select>
     </div>
 
@@ -580,11 +580,11 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
                     onChange={handleChange}
                   > 
                     <option value="">How did you hear about us?</option>
-                    <option value="Social Media">Social Media</option>
-                    <option value="Friend">A Friend</option>
-                    <option value="Family">A Family Member</option>
-                    <option value="Search">Online Search</option>
-                    <option value="Billboard">Billboard/Poster</option>
+                    <option value="social media">Social Media</option>
+                    <option value="friend">A Friend</option>
+                    <option value="family">A Family Member</option>
+                    <option value="search">Online Search</option>
+                    <option value="billboard">Billboard/Poster</option>
                   </select>
                 </div>
 
