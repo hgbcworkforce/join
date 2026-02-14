@@ -100,7 +100,7 @@ const Submissions = () => {
                         {submission?.studentFaculty ? (
                           <span className='text-sm text-gray-700'>{submission.studentFaculty}</span>
                         ) : (
-                          <span className='text-sm text-gray-700'>{submission?.occupationField || 'N/A'}</span>
+                          <span className='text-sm text-gray-700'>{submission?.occupationField || '---'}</span>
                         )}
                         <span className='text-xs text-gray-400'>{submission?.studentDepartment}</span>
                       </div>

@@ -128,17 +128,17 @@ const SubmissionModal = ({ data, onClose }) => {
                                 <>
                                     <div>
                                         <span className='text-xs text-gray-400 font-semibold uppercase tracking-wider'>Organization</span>
-                                        <p className='text-gray-900 font-semibold'>{data.organizationName}</p>
+                                        <p className='text-gray-900 font-semibold'>{data.professionalOrganization}</p>
                                     </div>
                                     <div>
                                         <span className='text-xs text-gray-400 font-semibold uppercase tracking-wider'>Occupational Field</span>
-                                        <p className='text-gray-900 font-semibold'>{data.occupationField}</p>
+                                        <p className='text-gray-900 font-semibold'>{data.professionalOccupation}</p>
                                     </div>
                                 </>
                             ) : (
                                 <div>
                                     <span className='text-xs text-gray-400 font-semibold uppercase tracking-wider'>Occupation</span>
-                                    <p className='text-gray-900 font-semibold'>{data.otherSpecification || data.occupation}</p>
+                                    <p className='text-gray-900 font-semibold'>{data.otherStatus || '---'}</p>
                                 </div>
                             )}
                         </div>
