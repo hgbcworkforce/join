@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { FaFacebook, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaYoutube, FaTiktok  } from "react-icons/fa6";
 import API from "./../api/axios";
 import { z } from "zod";
+import SucessVideoModal from "../components/SucessVideoModal";
 
 const Hero = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -208,9 +209,7 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
     try {
       await API.post("/first-timers", formData);
       setIsSubmitted(true);
-
-      // Auto-hide success message after 5 seconds
-      setTimeout(() => setIsSubmitted(false), 5000);
+ 
     } catch (error) {
       console.error("Submission error:", error.response?.data || error.message || error);
       const serverMessage = error.response?.data?.message || error.response?.data || null;
@@ -242,11 +241,7 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
       {/* Main Content */}
       <main id="main-content" className={`${showIntro ? "hidden" : "block"}`}>
                 {/* Success Notification - The React Way */}
-        {isSubmitted && (
-          <div className="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50 transition-opacity">
-            Form submitted successfully!
-          </div>
-        )}
+        <SucessVideoModal isOpen={isSubmitted} onClose={() => setIsSubmitted(false)} />
 
                 {/* Error Notification */}
         {/* {errorMessage && (
@@ -717,6 +712,9 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
         <div id='confirmMessage' className='hidden absolute top-5 justify-center items-center bg-white text-green-500 px-6 py-3 rounded-lg mx-auto shadow-md'>
             <span>Account Created Successfully!</span>
         </div>
+
+        <SucessVideoModal isOpen={isSubmitted} onClose={() => setIsSubmitted(false)} />
+
       </main>
     </>
   );
