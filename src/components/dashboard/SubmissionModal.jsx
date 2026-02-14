@@ -58,7 +58,7 @@ const SubmissionModal = ({ data, onClose }) => {
                     <button type="submit" className='bg-orange-500 hover:bg-orange-600 text-white backdrop-blur-sm px-6 py-2 rounded-full cursor-pointer'>Mark as Followed</button>
                    </form> */}
 
-                </div>
+                </div> 
 
                 <div className='p-8 space-y-10 bg-gray-50/50'>
 
