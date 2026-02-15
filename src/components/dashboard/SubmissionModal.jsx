@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FaUser, FaGraduationCap, FaCheck, FaChurch, FaHandsPraying, FaCopy, FaPlay  } from 'react-icons/fa6'
+import { FaUser, FaGraduationCap, FaCheck, FaChurch, FaHandsPraying, FaCopy, FaPlay, FaX  } from 'react-icons/fa6'
 
 const SubmissionModal = ({ data, onClose }) => {
 
