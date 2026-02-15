@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaYoutube, FaTiktok  } from "react-icons/fa6";
 import API from "./../api/axios";
 import { z } from "zod";
 import SucessVideoModal from "../components/SucessVideoModal";
@@ -222,8 +221,12 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
 
       setTimeout(() => {
         setIsSubmitted(false);
+                // Reload to reset form state (optional, can be removed if you want to keep form data)
+        window.location.reload();
         
         Navigate("/");
+
+
       }, 30000);
  
     } catch (error) {
@@ -690,38 +693,6 @@ const API_URL = API.defaults.baseURL; // Using the helper function from api.js
               </div>
             )}
           </form>
-        </div>
-
-        {/* Social Media Links */}
-        <div className="flex justify-center space-x-6 absolute right-[5%] bottom-[5%]">
-          <a
-            href="https://www.instagram.com/hgbcinfluencers"
-            target="_blank"
-            className="flex justify-center items-center w-10 h-10 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
-          >
-            <FaInstagram className="w-6 h-6 " />
-          </a>
-          <a
-            href="https://www.facebook.com/hgbcinfluencers"
-            target="_blank"
-            className="flex justify-center items-center w-10 h-10 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
-          >
-            <FaFacebook className="w-6 h-6" />
-          </a>
-          <a
-            href="https://www.youtube.com/@hgbcinfluencers"
-            target="_blank"
-            className="flex justify-center items-center w-10 h-10 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
-          >
-            <FaYoutube className="w-6 h-6" />
-          </a>
-          <a
-            href="https://www.tiktok.com/@hgbcinfluencers"
-            target="_blank"
-            className="flex justify-center items-center w-10 h-10 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
-          >
-            <FaTiktok className="w-6 h-6" />
-          </a>
         </div>
 
         <SucessVideoModal isOpen={isSubmitted} onClose={() => setIsSubmitted(false)} />

@@ -1,13 +1,13 @@
-import { FaPlay } from "react-icons/fa6";
+import { FaFacebook, FaInstagram, FaYoutube, FaTiktok, FaPlay  } from "react-icons/fa6";
 
 const SucessVideoModal = ({ isOpen = false, onClose = () => {} }) => {
   if (!isOpen) return null;
 
   return (
     <>
-      {/* Modal Overlay: covers screen and dims background */}
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/20 backdrop-blur-sm"
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-white/20 backdrop-blur-sm">
+            {/* Modal Overlay: covers screen and dims background */}
+      <div className="flex items-center justify-center p-4 "
         onClick={onClose}
       >
         {/* Modal Content: the actual card */}
@@ -51,6 +51,40 @@ const SucessVideoModal = ({ isOpen = false, onClose = () => {} }) => {
           </div>
         </div>
       </div>
+      
+                {/* Social Media Links */}
+        <div className=" flex justify-center space-x-6 mt-6">
+          <a
+            href="https://www.instagram.com/hgbcinfluencers"
+            target="_blank"
+            className="flex justify-center items-center w-12 h-12 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
+          >
+            <FaInstagram className="w-8 h-8 " />
+          </a>
+          <a
+            href="https://www.facebook.com/hgbcinfluencers"
+            target="_blank"
+            className="flex justify-center items-center w-12 h-12 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
+          >
+            <FaFacebook className="w-8 h-8" />
+          </a>
+          <a
+            href="https://www.youtube.com/@hgbcinfluencers"
+            target="_blank"
+            className="flex justify-center items-center w-12 h-12 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
+          >
+            <FaYoutube className="w-8 h-8" />
+          </a>
+          <a
+            href="https://www.tiktok.com/@hgbcinfluencers"
+            target="_blank"
+            className="flex justify-center items-center w-12 h-12 rounded-full bg-white hover:bg-orange-600 text-orange-600 hover:text-white transition-colors duration-300 shadow-lg"
+          >
+            <FaTiktok className="w-8 h-8" />
+          </a>
+        </div>
+    </div>
+
     </>
   );
 };
