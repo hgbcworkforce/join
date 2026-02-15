@@ -1,4 +1,4 @@
-import { FaPlay, FaX } from "react-icons/fa6";
+import { FaPlay } from "react-icons/fa6";
 
 const SucessVideoModal = ({ isOpen = false, onClose = () => {} }) => {
   if (!isOpen) return null;
@@ -17,13 +17,13 @@ const SucessVideoModal = ({ isOpen = false, onClose = () => {} }) => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
-          <button
+          {/* <button
             aria-label="Close"
             className="bg-orange-600 w-8 h-8 flex justify-center items-center p-3 top-4 right-4 text-white rounded-full cursor-pointer shadow-lg absolute"
             onClick={onClose}
           >
             <FaX className="absolute w-5 h-5 " />
-          </button>
+          </button> */}
 
           {/* Success Icon */}
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-green-600">
