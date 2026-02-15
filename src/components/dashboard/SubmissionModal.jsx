@@ -12,6 +12,7 @@ const SubmissionModal = ({ data, onClose }) => {
     };
 
 
+
     return (
         <div
             onClick={onClose}

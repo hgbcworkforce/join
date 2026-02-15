@@ -1,54 +1,89 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaArrowRightFromBracket, FaUserGroup, FaChartBar } from "react-icons/fa6";
-import Logo from '../assets/logo.png'
+import Logo from '../assets/logo.png';
 
 const Sidebar = ({ isExpanded }) => {
   const navigate = useNavigate();
+  const location = useLocation(); // Used to track active link
+
   const handleLogout = () => {
-  localStorage.removeItem("token"); // Destroy the session
-  navigate("/signin"); // Kick back to login
-};
+    localStorage.removeItem("token");
+    navigate("/signin");
+  };
+
+  // Helper for active styling
+  const isActive = (path) => location.pathname === path;
+
+  const navItems = [
+    { path: '/dashboard', label: 'Overview', icon: <FaChartBar /> },
+    { path: '/dashboard/submissions', label: 'Submissions', icon: <FaUserGroup /> },
+  ];
 
   return (
-    <aside className={`h-screen fixed top-0 left-0 bg-white p-8 shadow-lg transition-width duration-300 ${isExpanded ? 'w-[280px]' : 'w-[80px]'}`}>
-      <div className='w-full flex flex-col space-y-8 justify-between h-full'>
-        <div className='flex flex-col justify-between items-start space-y-16'>
-
-
-          <div className='flex flex-row items-center space-x-2'>
-            <img src={Logo} alt="Logo" className='w-12' />
-            {isExpanded && <span className='text-gray-700 text-xl font-medium'>Hgbc Influencers</span>}
-          </div>
-          <ul className='flex flex-col space-y-6 justify-center items-start mt-8 md:mt-16'>
-
-            <li className='cursor-pointer'>
-              <Link to="/dashboard" className='flex flex-row items-center space-x-2'>
-                <FaChartBar className='text-gray-700 text-xl mr-8' />
-                {isExpanded && <span className='text-gray-700 text-xl font-medium'>Overview</span>}
-              </Link>
-            </li>
-
-
-            <li className='cursor-pointer'>
-              <Link to="/dashboard/submissions" className='flex flex-row items-center space-x-2'>
-                <FaUserGroup className='text-gray-700 text-xl mr-8' />
-                {isExpanded && <span className='text-gray-700 text-xl font-medium'>Submissions</span>}
-              </Link>
-            </li>
-
-          </ul>
+    <aside 
+      className={`h-screen fixed top-0 left-0 bg-slate-50 border-r border-gray-200 transition-all duration-300 ease-in-out z-50 
+      ${isExpanded ? 'w-[260px] p-6' : 'w-[85px] p-4'}`}
+    >
+      <div className='flex flex-col h-full'>
+        
+        {/* Branding Section */}
+        <div className={`flex items-center mb-10 ${isExpanded ? 'px-2' : 'justify-center'}`}>
+          <img src={Logo} alt="Logo" className='w-10 h-10 object-contain' />
+          {isExpanded && (
+            <span className='ml-3 text-slate-800 text-lg font-bold tracking-tight whitespace-nowrap overflow-hidden'>
+              Hgbc Influencers
+            </span>
+          )}
         </div>
 
-        <div className='flex items-start space-x-2 text-red-500 hover:text-red-600 cursor-pointer'>
-          <button onClick={handleLogout} className='flex flex-row items-center cursor-pointer'>
-            <FaArrowRightFromBracket className='text-xl mr-8' />
-            {isExpanded && <span className='text-xl font-medium'>Logout</span>}
+        {/* Navigation Links */}
+        <nav className='flex-1'>
+          <ul className='space-y-2'>
+            {navItems.map((item) => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  className={`flex items-center p-3 rounded-xl transition-all duration-200 group
+                    ${isActive(item.path) 
+                      ? 'bg-orange-600 text-white shadow-md shadow-orange-200' 
+                      : 'text-slate-500 hover:bg-white hover:text-orange-600 hover:shadow-sm'
+                    }`}
+                >
+                  <div className={`text-xl ${isExpanded ? 'mr-4' : 'mx-auto'}`}>
+                    {item.icon}
+                  </div>
+                  {isExpanded && (
+                    <span className="font-medium whitespace-nowrap overflow-hidden">
+                      {item.label}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Bottom Actions / Logout */}
+        <div className="pt-4 border-t border-gray-200">
+          <button
+            onClick={handleLogout}
+            className={`w-full flex items-center p-3 rounded-xl cursor-pointer text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group
+              ${!isExpanded && 'justify-center'}`}
+          >
+            <div className={`text-xl ${isExpanded ? 'mr-4' : ''}`}>
+              <FaArrowRightFromBracket />
+            </div>
+            {isExpanded && (
+              <span className="font-medium whitespace-nowrap overflow-hidden">
+                Logout
+              </span>
+            )}
           </button>
         </div>
 
       </div>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
