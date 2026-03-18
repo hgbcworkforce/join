@@ -68,20 +68,20 @@ const Navbar = () => {
             
             {/* Logo - Fixed to use Link instead of anchor */}
             <div className="flex-shrink-0 group">
-              <Link 
-                to="https://www.hgbcinfluencers.org" 
+              <a 
+                href="https://www.hgbcinfluencers.org" 
                 className="flex items-center space-x-2 transition-transform duration-300 group-hover:scale-105"
               >
                 <img src={logo} alt="logo" className="w-10 md:w-16" />
-              </Link>
+              </a>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-1">
               {navLinks.map((item) => (
-                <Link
+                <a
                   key={item.name}
-                  to={item.path}
+                  href={item.path}
                   className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 uppercase ${
                     location.pathname === item.path
                       ? 'text-white'
@@ -92,7 +92,7 @@ const Navbar = () => {
                   {location.pathname === item.path && (
                     <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-5 h-1 bg-orange-600 "></div>
                   )}
-                </Link>
+                </a>
               ))}
             </div>
 

@@ -17,9 +17,9 @@ const Footer = () => {
             <ul className="space-y-4">
               {footerLinks.map((item, index) => (
                 <li key={index}>
-                  <Link to={item.path} className="hover:text-orange-500 transition-colors text-sm font-medium">
+                  <a href={item.path} className="hover:text-orange-500 transition-colors text-sm font-medium">
                     {item.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -31,9 +31,9 @@ const Footer = () => {
               <ul className="space-y-4">
                 {contactLinks.map((item, index) => (
                   <li key={index}>
-                    <Link to={item.path} className="hover:text-orange-500 transition-colors text-sm font-medium">
+                    <a href={item.path} className="hover:text-orange-500 transition-colors text-sm font-medium">
                       {item.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -45,9 +45,9 @@ const Footer = () => {
               <ul className="space-y-4">
                 {mediaLinks.map((item, index) => (
                   <li key={index}>
-                    <Link to={item.path} className="hover:text-orange-500 transition-colors text-sm font-medium">
+                    <a href={item.path} className="hover:text-orange-500 transition-colors text-sm font-medium">
                       {item.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
