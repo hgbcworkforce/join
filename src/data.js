@@ -8,26 +8,26 @@ import {
 
 
 export const navLinks = [
-  {name: "About", path: "/about"},
+  {name: "About", path: "https://www.hgbcinfluencers.org/about"},
   // { name: "Quick-Links", path: "/ql" },
-  { name: "Online", path: "/watch-live" },
-  { name: "Sermon", path: "/sermon" },
+  { name: "Online", path: "https://www.hgbcinfluencers.org/watch-live" },
+  { name: "Sermon", path: "https://www.hgbcinfluencers.org/sermon" },
 ];
 
 export const footerLinks = [
-  { name: "About", path: "https://join.hgbcinfluencers.org" },
-  { name: "Quick Links", path: "/ql" },
-  { name: "Special Events", path: "/special-events" },
+  { name: "About", path: "https://www.hgbcinfluencers.org/about" },
+  { name: "Quick Links", path: "https://www.hgbcinfluencers.org/ql" },
+  { name: "Special Events", path: "https://www.hgbcinfluencers.org/special-events" },
 ];
 
 export const contactLinks = [
-  { name: "First Timer", path: "https://join.hgbcinfluencers.org" },
-  // { name: "Sermon", path: "/sermon" },
+  { name: "First Timer", path: "https://www.hgbcinfluencers.org/join" },
+  // { name: "Sermon", path: "https://www.hgbcinfluencers.org/sermon" },
 ];
 
 export const mediaLinks = [
-  { name: "Watch Live", path: "/watch-live" },
-  { name: "Sermon", path: "/sermon" },
+  { name: "Watch Live", path: "https://www.hgbcinfluencers.org/watch-live" },
+  { name: "Sermon", path: "https://www.hgbcinfluencers.org/sermon" },
 ];
 
 

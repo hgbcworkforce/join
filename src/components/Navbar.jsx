@@ -69,7 +69,7 @@ const Navbar = () => {
             {/* Logo - Fixed to use Link instead of anchor */}
             <div className="flex-shrink-0 group">
               <Link 
-                to="/" 
+                to="https://www.hgbcinfluencers.org" 
                 className="flex items-center space-x-2 transition-transform duration-300 group-hover:scale-105"
               >
                 <img src={logo} alt="logo" className="w-10 md:w-16" />
