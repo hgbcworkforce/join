@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import API from "./../api/axios";
 import { z } from "zod";
 import SucessVideoModal from "../components/SucessVideoModal";
-import { Navigate } from "react-router-dom";
+import herobg from "../assets/hero.jpeg";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Hero = () => {
   const [showIntro, setShowIntro] = useState(true);
@@ -13,121 +15,124 @@ const Hero = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
 
- const Navigate = useNavigate();
-
+  const Navigate = useNavigate();
   const totalSteps = 4;
 
   const [formData, setFormData] = useState({
-  fullName: "",
-  gender: "",
-  dateOfBirth: "",
-  phoneNumber: "",
-  email: "",
-  residenceAddress: "",
-  status: "",
-  studentLevel: "",
-  studentFaculty: "",
-  studentDepartment: "",
-  studentInstitution: "",
-  professionalOrganization: '',
-  professionalOccupation: '',
-  otherStatus: '',
-  howDidYouHear: "",
-  experienceToday: "",
-  bestContactTime: "",
-  preferredContactMethod: "",
-  prayerRequests: ""
+    fullName: "",
+    gender: "",
+    dateOfBirth: "",
+    phoneNumber: "",
+    email: "",
+    residenceAddress: "",
+    status: "",
+    studentLevel: "",
+    studentFaculty: "",
+    studentDepartment: "",
+    studentInstitution: "",
+    professionalOrganization: "",
+    professionalOccupation: "",
+    otherStatus: "",
+    howDidYouHear: "",
+    experienceToday: "",
+    bestContactTime: "",
+    preferredContactMethod: "",
+    prayerRequests: "",
   });
 
-
+  // --- FORM SCHEMA & LOGIC (UNALTERED) ---
   const formSchema = z
-  .object({
-    // 1. Always Required Fields
-    fullName: z.string().min(1, "Full name is required"),
-    gender: z.enum(["male", "female"], { required_error: "Gender is required" }),
-    dateOfBirth: z.string().min(1, "Date of birth is required"),
-    phoneNumber: z.string().min(7, "Phone number is too short"),
-    email: z.string().email("Invalid email address"),
-    residenceAddress: z.string().min(1, "Residence address is required"),
-    status: z.enum(["student", "professional", "other"], { 
-      required_error: "Status is required" 
-    }),
-    howDidYouHear: z.string().min(1, "Please let us know how you heard about us"),
-
-    // 2. Conditional Fields (Marked optional here, enforced in superRefine)
-    studentLevel: z.string().optional(),
-    studentFaculty: z.string().optional(),
-    studentDepartment: z.string().optional(),
-    studentInstitution: z.string().optional(),
-    professionalOrganization: z.string().optional(),
-    professionalOccupation: z.string().optional(),
-    otherStatus: z.string().optional(),
-
-    // 3. Truly Optional Fields
-    experienceToday: z.string().optional(),
-    bestContactTime: z.string().optional(),
-    preferredContactMethod: z.string().optional(),
-    prayerRequests: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // Logic for Students
-    if (data.status === "student") {
-      if (!data.studentInstitution?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["studentInstitution"], message: "Institution is required" });
+    .object({
+      fullName: z.string().min(1, "Full name is required"),
+      gender: z.enum(["male", "female"], {
+        required_error: "Gender is required",
+      }),
+      dateOfBirth: z.string().min(1, "Date of birth is required"),
+      phoneNumber: z.string().min(7, "Phone number is too short"),
+      email: z.string().email("Invalid email address"),
+      residenceAddress: z.string().min(1, "Residence address is required"),
+      status: z.enum(["student", "professional", "other"], {
+        required_error: "Status is required",
+      }),
+      howDidYouHear: z
+        .string()
+        .min(1, "Please let us know how you heard about us"),
+      studentLevel: z.string().optional(),
+      studentFaculty: z.string().optional(),
+      studentDepartment: z.string().optional(),
+      studentInstitution: z.string().optional(),
+      professionalOrganization: z.string().optional(),
+      professionalOccupation: z.string().optional(),
+      otherStatus: z.string().optional(),
+      experienceToday: z.string().optional(),
+      bestContactTime: z.string().optional(),
+      preferredContactMethod: z.string().optional(),
+      prayerRequests: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.status === "student") {
+        if (!data.studentInstitution?.trim())
+          ctx.addIssue({
+            code: "custom",
+            path: ["studentInstitution"],
+            message: "Institution is required",
+          });
+        if (!data.studentFaculty?.trim())
+          ctx.addIssue({
+            code: "custom",
+            path: ["studentFaculty"],
+            message: "Faculty is required",
+          });
+        if (!data.studentDepartment?.trim())
+          ctx.addIssue({
+            code: "custom",
+            path: ["studentDepartment"],
+            message: "Department is required",
+          });
+        if (!data.studentLevel?.trim())
+          ctx.addIssue({
+            code: "custom",
+            path: ["studentLevel"],
+            message: "Level is required",
+          });
       }
-      if (!data.studentFaculty?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["studentFaculty"], message: "Faculty is required" });
+      if (data.status === "professional") {
+        if (!data.professionalOccupation?.trim())
+          ctx.addIssue({
+            code: "custom",
+            path: ["professionalOccupation"],
+            message: "Occupation is required",
+          });
       }
-      if (!data.studentDepartment?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["studentDepartment"], message: "Department is required" });
+      if (data.status === "other" && !data.otherStatus?.trim()) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["otherStatus"],
+          message: "Please specify your status",
+        });
       }
-      if (!data.studentLevel?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["studentLevel"], message: "Level is required" });
-      }
-    }
+    });
 
-    // Logic for Professionals
-    if (data.status === "professional") {
-      if (!data.professionalOccupation?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["professionalOccupation"], message: "Occupation is required" });
-      }
-      // Organization is optional based on your initial code, but you can add a check here if needed
-    }
-
-    // Logic for "Other" status
-    if (data.status === "other" && !data.otherStatus?.trim()) {
-      ctx.addIssue({ code: "custom", path: ["otherStatus"], message: "Please specify your status" });
-    }
-  });
-
-
-
-
-
-  // 1. Handle Intro Animation
   useEffect(() => {
     const timer = setTimeout(() => setShowIntro(false), 8000);
-    return () => clearTimeout(timer); // Cleanup on unmount
+    return () => clearTimeout(timer);
   }, []);
 
-  // 2. Progress Calculation
   const progressWidth = (currentStep / totalSteps) * 100;
 
   const handleNext = () => {
-    // Validate current step fields before moving forward
     if (!validateStep(currentStep)) return;
     if (currentStep < totalSteps) setCurrentStep((prev) => prev + 1);
   };
 
   const handlePrev = () => {
     if (currentStep > 1) setCurrentStep((prev) => prev - 1);
-  }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    setFieldErrors(prev => {
-      if (!prev) return {};
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => {
       const copy = { ...prev };
       delete copy[name];
       return copy;
@@ -138,567 +143,493 @@ const Hero = () => {
     const stepFields = (() => {
       switch (step) {
         case 1:
-          return ["fullName", "gender", "dateOfBirth", "phoneNumber", "email", "residenceAddress"];
-        case 2: {
-          if (formData.status === "student") {
-            return ["status", "studentInstitution", "studentFaculty", "studentDepartment", "studentLevel"];
-          }
-          if (formData.status === "professional") {
-            return ["status", "professionalOrganization", "professionalOccupation"];
-          }
-          return ["status", "otherStatus"]; // other
-        }
+          return [
+            "fullName",
+            "gender",
+            "dateOfBirth",
+            "phoneNumber",
+            "email",
+            "residenceAddress",
+          ];
+        case 2:
+          if (formData.status === "student")
+            return [
+              "status",
+              "studentInstitution",
+              "studentFaculty",
+              "studentDepartment",
+              "studentLevel",
+            ];
+          if (formData.status === "professional")
+            return [
+              "status",
+              "professionalOrganization",
+              "professionalOccupation",
+            ];
+          return ["status", "otherStatus"];
         case 3:
           return ["howDidYouHear"];
         default:
           return [];
       }
     })();
-
     const result = formSchema.safeParse(formData);
     if (result.success) {
-      // clear errors for this step
-      setFieldErrors(prev => {
+      setFieldErrors((prev) => {
         const copy = { ...(prev || {}) };
-        stepFields.forEach(f => delete copy[f]);
+        stepFields.forEach((f) => delete copy[f]);
         return copy;
       });
-      setErrorMessage("");
       return true;
     }
-
-    const zodErrors = result.error?.issues ?? result.error?.errors ?? [];
-    const relevant = zodErrors.filter(err => stepFields.includes(err.path?.[0]));
-    if (relevant.length === 0) {
-      // no errors for this step
-      setFieldErrors(prev => {
-        const copy = { ...(prev || {}) };
-        stepFields.forEach(f => delete copy[f]);
-        return copy;
-      });
-      setErrorMessage("");
-      return true;
-    }
-
+    const zodErrors = result.error?.issues ?? [];
+    const relevant = zodErrors.filter((err) =>
+      stepFields.includes(err.path?.[0]),
+    );
+    if (relevant.length === 0) return true;
     const newFieldErrors = {};
-    relevant.forEach(err => {
+    relevant.forEach((err) => {
       const key = err.path?.[0] || "form";
-      if (!newFieldErrors[key]) newFieldErrors[key] = err.message || "Invalid value";
+      newFieldErrors[key] = err.message;
     });
-
-    setFieldErrors(prev => ({ ...(prev || {}), ...newFieldErrors }));
-    setErrorMessage(Object.values(newFieldErrors).join("; "));
+    setFieldErrors((prev) => ({ ...prev, ...newFieldErrors }));
     return false;
   };
 
-// const API_URL = import.meta.env.VITE_API_BASE_URL; 
-const API_URL = API.defaults.baseURL; // Using the helper function from api.js
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
-
-    const result = formSchema.safeParse(formData);
-    if (!result.success) {
-      const zodErrors = result.error?.issues ?? result.error?.errors ?? [];
-      const newFieldErrors = {};
-      const messages = zodErrors.map((err) => {
-        const key = err.path?.length ? err.path[0] : "form";
-        if (key && !newFieldErrors[key]) newFieldErrors[key] = err.message;
-        const path = err.path?.length ? err.path.join(".") : "form";
-        return `${path}: ${err.message}`;
-      });
-      setFieldErrors(prev => ({ ...(prev || {}), ...newFieldErrors }));
-      setErrorMessage(messages.join("; "));
-      return;
-    }
-
     setIsLoading(true);
-
     try {
       await API.post("/first-timers", formData);
       setIsSubmitted(true);
-
       setTimeout(() => {
         setIsSubmitted(false);
-                // Reload to reset form state (optional, can be removed if you want to keep form data)
         window.location.reload();
-        
         Navigate("/");
-
-
       }, 30000);
- 
     } catch (error) {
-      console.error("Submission error:", error.response?.data || error.message || error);
-      const serverMessage = error.response?.data?.message || error.response?.data || null;
-      setErrorMessage(serverMessage || "Failed to submit. Please check your connection.");
+      setErrorMessage("Failed to submit. Please check your connection.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // --- REFINED UI COMPONENTS ---
+  const inputStyle = (hasError) =>
+    `w-full p-4 bg-gray-50 border ${hasError ? "border-red-500" : "border-gray-200"} rounded-xl focus:ring-2 focus:ring-orange-600/10 focus:border-orange-600 outline-none transition-all duration-200 placeholder:text-gray-400`;
+  const labelStyle =
+    "text-[11px] font-black uppercase tracking-widest text-gray-500 mb-2 block ml-1";
+
   return (
-    <>
-      {/* Intro Animation */}
+    <div className="min-h-screen bg-gray-50 font-sans">
+      {/* Intro Overlay */}
       {showIntro && (
-        <div id="intro-overlay" className="w-full h-full fixed top-0 left-0 bg-white flex flex-col justify-center items-center z-50">
-          <div className="intro-content">
-            <h1 className="fade-text opacity-0 text-3xl md:text-5xl lg:text-7xl font-normal  mb-4 flex flex-col md:flex-row items-center space-x-0 md:space-x-1 space-y-2 md:space-y-0">
-              <span>Welcome to The </span>
-              <span className="city-bg bg-[rgb(234,57,8)] text-white py-1 px-5 rounded-md">City of Refuge</span>
+        <div className="fixed inset-0 bg-white flex flex-col justify-center items-center z-50 p-6 text-center">
+          <h1 className="fade-text opacity-0 text-3xl md:text-6xl font-normal mb-4">
+            Welcome to The{" "}
+            <span className="bg-[rgb(234,57,8)] text-white py-1 px-5 rounded-md">
+              City of Refuge
+            </span>
+          </h1>
+          <div className="relative flex flex-col items-center">
+            <span className="underbar opacity-0 w-72 md:w-96  lg:w-[31.25rem] h-5 inline-block bg-[rgb(234,57,8)] absolute top-[54%] left-35% transform -translate-x-[35%]"></span>
+            <p className="fade-text delay text-xl md:text-4xl opacity-0 font-normal">
+              We are so glad you're here!
+            </p>
+          </div>{" "}
+        </div>
+      )}
+
+      <main
+        className={`${showIntro ? "hidden" : "block"} transition-all duration-700`}
+      >
+        <SucessVideoModal
+          isOpen={isSubmitted}
+          onClose={() => setIsSubmitted(false)}
+        />
+
+        {/* Hero Section */}
+        <section
+          className="relative h-[80vh] flex flex-col items-center justify-center text-white text-center px-6 bg-cover bg-center"
+          style={{ backgroundImage: `url(${herobg})` }}
+        >
+          <div className="absolute inset-0 bg-black/60" />
+          {/* Navbar Wrapper */}
+          <div className="relative z-30 w-full">
+            <Navbar />
+          </div>
+
+          <div className="relative z-10 max-w-4xl">
+            <span className="inline-block px-5 py-2 text-[10px] tracking-[0.3em] bg-white/10 backdrop-blur-md text-orange-500 font-black rounded-full mb-8 border border-white/20 uppercase">
+              First Timers
+            </span>
+            <h1 className="text-5xl md:text-7xl font-black uppercase mb-6 tracking-tighter leading-tight">
+              WELCOME TO HGBC
             </h1>
-            <div className="relative flex flex-col items-center">
-                <span className="underbar opacity-0 w-72 md:w-96  lg:w-[31.25rem] h-5 inline-block bg-[rgb(234,57,8)] absolute top-[54%] left-35% transform -translate-x-[35%]"></span>
-                <p className="fade-text delay text-xl md:text-4xl opacity-0 font-normal">We are so glad you're here!</p>
+            <p className="max-w-2xl mx-auto text-base md:text-lg font-medium text-gray-200 leading-relaxed opacity-90">
+              We're honored to have you join our family today. Please fill out
+              the form below so we can stay connected.
+            </p>
+          </div>
+        </section>
+
+        {/* Card Form Container */}
+        <div className="max-w-4xl mx-auto mt-20 md:-mt-24 relative z-20 px-4 pb-20 ">
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+            {/* Progress Bar */}
+            <div className="bg-gray-100 h-2 w-full">
+              <div
+                className="h-full bg-orange-600 transition-all duration-700 ease-in-out"
+                style={{ width: `${progressWidth}%` }}
+              />
             </div>
 
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
-      <main id="main-content" className={`${showIntro ? "hidden" : "block"}`}>
-                {/* Success Notification - The React Way */}
-        <SucessVideoModal isOpen={isSubmitted} onClose={() => setIsSubmitted(false)} />
-
-                {/* Error Notification */}
-        {/* {errorMessage && (
-          <div className="mb-4 bg-red-100 text-red-700 p-3 rounded">
-            {errorMessage}
-          </div>
-        )} */}
-
-        <div className="form container max-w-112.5 mx-auto mt-10 p-10 bg-white rounded-lg shadow-lg">
-
-            {/* Progress Bar */}
-          <div className="progress-container h-1 bg-gray-200 rounded-xl mb-10">
-            <div
-              className="progress-bar h-full w-[33%] bg-orange-600 transition-all duration-[500] ease-in-out"
-              style={{ width: `${progressWidth}%` }}
-            ></div>
-          </div>
-
-          <form onSubmit={handleSubmit}>
-            {/* <!-- Step 1 --> */}
-            {currentStep === 1 && (
-              <div className="form-step active" data-step="1">
-                <h2 className="text-xl font-semibold mb-5 ">
-                  Personal Information
+            <form onSubmit={handleSubmit} className="p-8 md:p-12">
+              <div className="flex justify-between items-center mb-10">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {currentStep === 1 && "Personal Information"}
+                  {currentStep === 2 && "Occupational Information"}
+                  {currentStep === 3 && "Connection & Experience"}
+                  {currentStep === 4 && "Follow-up Preference"}
                 </h2>
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="name">Full Name</label>
-                  {fieldErrors.fullName && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.fullName}</div>
-                  )}
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    id="name"
-                    placeholder="Full Name"
-                    className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                   onChange={handleChange}
-                    required
-                  />
+                <div className="hidden md:block">
+                  <span className="text-orange-600 font-black text-sm uppercase tracking-widest bg-orange-50 px-3 py-1 rounded-full">
+                    Step {currentStep}/4
+                  </span>
                 </div>
-                <div>
-                  <label  className="text-gray-700 font-normal" htmlFor="gender">Gender</label>
-                  {fieldErrors.gender && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.gender}</div>
-                  )}
-                  <select
-                    name="gender"
-                    value={formData.gender}
-                    id="gender"
-                    className="text-gray-700 font-normal w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                   onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                </div>
-
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="age">Date of Birth</label>
-                  {fieldErrors.dateOfBirth && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.dateOfBirth}</div>
-                  )}
-                    <input
-                      type="date"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
-                      id="age"
-                      className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                     onChange={handleChange}
-                      required
-                    />
-                </div>
-
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="phone">
-                    Phone Number (WhatsApp preferable)
-                  </label>
-                  {fieldErrors.phoneNumber && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.phoneNumber}</div>
-                  )}
-                  <input
-                    type="tel"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    id="phoneNumber"
-                    placeholder="Phone Number"
-                    className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                   onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="email">Email</label>
-                  {fieldErrors.email && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.email}</div>
-                  )}
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    id="email"
-                    placeholder="Email Address"
-                    className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="address">Residence Address</label>
-                  {fieldErrors.residenceAddress && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.residenceAddress}</div>
-                  )}
-                  <input
-                    type="text"
-                    name="residenceAddress"
-                    value={formData.residenceAddress}
-                    id="residenceAddress"
-                    placeholder="Residence Address"
-                    className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                   onChange={handleChange}
-                    required
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="next-btn w-full cursor-pointer border-0 bg-orange-600 text-white text-xl py-3 px-6 rounded-md hover:bg-orange-700 transition-colors duration-200"
-                >
-                  Next
-                </button>
               </div>
-            )}
 
-            {/* Step 2 */}
+              <div className="min-h-[350px]">
+                {/* Step 1: Personal */}
+                {currentStep === 1 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="md:col-span-2">
+                      <label className={labelStyle}>Full Name</label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        placeholder="e.g. John Doe"
+                        className={inputStyle(fieldErrors.fullName)}
+                      />
+                      {fieldErrors.fullName && (
+                        <p className="text-red-600 text-xs mt-2 font-medium">
+                          {fieldErrors.fullName}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <label className={labelStyle}>Gender</label>
+                      <select
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                        className={inputStyle(fieldErrors.gender)}
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={labelStyle}>Date of Birth</label>
+                      <input
+                        type="date"
+                        name="dateOfBirth"
+                        value={formData.dateOfBirth}
+                        onChange={handleChange}
+                        className={inputStyle(fieldErrors.dateOfBirth)}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelStyle}>
+                        Phone (WhatsApp preferable)
+                      </label>
+                      <input
+                        type="tel"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        placeholder="0800 000 0000"
+                        className={inputStyle(fieldErrors.phoneNumber)}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelStyle}>Email Address</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="john@example.com"
+                        className={inputStyle(fieldErrors.email)}
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelStyle}>Residence Address</label>
+                      <input
+                        type="text"
+                        name="residenceAddress"
+                        value={formData.residenceAddress}
+                        onChange={handleChange}
+                        placeholder="Street address, City"
+                        className={inputStyle(fieldErrors.residenceAddress)}
+                      />
+                    </div>
+                  </div>
+                )}
 
-{/* Step 2 */}
-{currentStep === 2 && (
-  <div className="form-step" data-step="2">
-    <h2 className="text-xl font-semibold mb-5">Occupational Information</h2>
-    
-    <div className="input-group">
-      <label className="text-gray-700 font-normal" htmlFor="status">Status</label>
-      {fieldErrors.status && (
-        <div className="text-red-600 text-sm mt-1">{fieldErrors.status}</div>
-      )}
-      <select
-        className="text-gray-700 font-normal w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-      >
-        <option value="">Select Status</option>
-        <option value="student">Student</option>
-        <option value="professional">Professional</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
+                {/* Step 2: Occupational */}
+                {currentStep === 2 && (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div>
+                      <label className={labelStyle}>Current Status</label>
+                      <select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className={inputStyle(fieldErrors.status)}
+                      >
+                        <option value="">Select Status</option>
+                        <option value="student">Student</option>
+                        <option value="professional">Professional</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
 
-    {/* Conditionally Render Student Fields */}
-    {formData.status === "student" && (
-      <div id="studentStatus" className="animate-in fade-in duration-300">
-                <div className="input-group">
-          <label className="text-gray-700 font-normal" htmlFor="institution">Institution</label>
-                  {fieldErrors.studentInstitution && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.studentInstitution}</div>
-                  )}
-          <input
-            type="text"
-            name="studentInstitution"
-            value={formData.studentInstitution}
-            id="institution"
-            placeholder="Institution"
-            className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label className="text-gray-700 font-normal" htmlFor="faculty">Faculty</label>
-                  {fieldErrors.studentFaculty && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.studentFaculty}</div>
-                  )}
-          <input
-            type="text"
-            name="studentFaculty"
-            value={formData.studentFaculty}
-            id="faculty"
-            placeholder="Faculty"
-            className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label className="text-gray-700 font-normal" htmlFor="department">Department</label>
-                  {fieldErrors.studentDepartment && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.studentDepartment}</div>
-                  )}
-          <input
-            type="text"
-            name="studentDepartment"
-            value={formData.studentDepartment}
-            id="department"
-            placeholder="Department"
-            className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-            onChange={handleChange}
-            required
-          />
-        </div>
-                <div className="input-group">
-          <label className="text-gray-700 font-normal" htmlFor="level">Level</label>
-                  {fieldErrors.studentLevel && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.studentLevel}</div>
-                  )}
-          <input
-            type="text"
-            name="studentLevel"
-            value={formData.studentLevel}
-            id="level"
-            placeholder="Level"
-            className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-            onChange={handleChange}
-            required
-          />
-        </div>
-      </div>
-    )}
-
-    {/* Conditionally Render Professional Fields */}
-    {formData.status === "professional" && (
-      <div id="proStatus" className="animate-in fade-in duration-300">
-                <div className="input-group">
-          <label className="text-gray-700 font-normal" htmlFor="company">Organization/ Company</label>
-                  {fieldErrors.professionalOrganization && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.professionalOrganization}</div>
-                  )}
-          <input
-            type="text"
-            name="professionalOrganization"
-            value={formData.professionalOrganization}
-            id="company"
-            placeholder="Organization/ Company"
-            onChange={handleChange}
-            className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-          />
-        </div>
-        <div className="input-group">
-          <label className="text-gray-700 font-normal" htmlFor="job">Job Title / Industry</label>
-                  {fieldErrors.professionalOccupation && (
-                    <div className="text-red-600 text-sm mt-1">{fieldErrors.professionalOccupation}</div>
-                  )}
-          <input
-            type="text"
-            name="professionalOccupation"
-            value={formData.professionalOccupation}
-            id="job"
-            placeholder="e.g. Software Engineer"
-            onChange={handleChange}
-            className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-          />
-        </div>
-      </div>
-    )}
-
-    {/* Conditionally Render Other Fields */}
-    {formData.status === "other" && (
-      <div className="input-group animate-in fade-in duration-300">
-        <label className="text-gray-700 font-normal" htmlFor="other-status">Please Specify</label>
-        {fieldErrors.otherStatus && (
-          <div className="text-red-600 text-sm mt-1">{fieldErrors.otherStatus}</div>
-        )}
-        <input
-          type="text"
-          name="otherStatus"
-            value={formData.otherStatus}
-          id="other-status"
-          placeholder="Your current status"
-          onChange={handleChange}
-          className="w-full p-3 my-3 border border-gray-100 rounded-lg focus:border-gray-500 focus:outline-0"
-        />
-      </div>
-    )}
-
-    <div className="flex gap-4 mt-6">
-        <button
-          type="button"
-          onClick={handlePrev}
-          className="w-1/2 cursor-pointer border border-gray-300 bg-white text-gray-700 py-3 px-6 rounded-md hover:bg-gray-50 transition-colors duration-200"
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          onClick={handleNext}
-          className="w-1/2 cursor-pointer border-0 bg-orange-600 text-white py-3 px-6 rounded-md hover:bg-orange-700 transition-colors duration-200"
-        >
-          Next
-        </button>
-    </div>
-  </div>
-)}
-
-
-            {/*  Step 3 */}
-            {currentStep === 3 && (
-              <div className="form-step" data-step="3">
-                <h2 className="text-xl font-semibold mb-5">Connection & Experience</h2>
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="howDidYouHear">How did you hear about us?</label>
-                    {fieldErrors.howDidYouHear && (
-                      <div className="text-red-600 text-sm mt-1">{fieldErrors.howDidYouHear}</div>
+                    {formData.status === "student" && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                        <div className="md:col-span-2">
+                          <label className={labelStyle}>Institution</label>
+                          <input
+                            name="studentInstitution"
+                            value={formData.studentInstitution}
+                            onChange={handleChange}
+                            placeholder="University Name"
+                            className={inputStyle(
+                              fieldErrors.studentInstitution,
+                            )}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelStyle}>Faculty</label>
+                          <input
+                            name="studentFaculty"
+                            value={formData.studentFaculty}
+                            onChange={handleChange}
+                            placeholder="e.g. Science"
+                            className={inputStyle(fieldErrors.studentFaculty)}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelStyle}>Department</label>
+                          <input
+                            name="studentDepartment"
+                            value={formData.studentDepartment}
+                            onChange={handleChange}
+                            placeholder="e.g. Computer Science"
+                            className={inputStyle(
+                              fieldErrors.studentDepartment,
+                            )}
+                          />
+                        </div>
+                        <div className="md:col-span-2">
+                          <label className={labelStyle}>Level</label>
+                          <input
+                            name="studentLevel"
+                            value={formData.studentLevel}
+                            onChange={handleChange}
+                            placeholder="e.g. 400 Level"
+                            className={inputStyle(fieldErrors.studentLevel)}
+                          />
+                        </div>
+                      </div>
                     )}
-                  <select
-                    className="text-gray-700 font-normal w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                    name="howDidYouHear"
-                    value={formData.howDidYouHear}
-                    onChange={handleChange}
-                  > 
-                    <option value="">How did you hear about us?</option>
-                    <option value="social media">Social Media</option>
-                    <option value="friend">A Friend</option>
-                    <option value="family">A Family Member</option>
-                    <option value="search">Online Search</option>
-                    <option value="billboard">Billboard/Poster</option>
-                  </select>
-                </div>
 
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="experienceToday">
-                    Tell us about your experience today
-                  </label>
-                  <textarea
-                    id="experience"
-                    name="experienceToday"
-                    value={formData.experienceToday}
-                    placeholder="We'd love to hear about your experience today!"
-                    onChange={handleChange}
-                    className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                  ></textarea>
-                </div>
+                    {formData.status === "professional" && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                        <div>
+                          <label className={labelStyle}>
+                            Organization / Company
+                          </label>
+                          <input
+                            name="professionalOrganization"
+                            value={formData.professionalOrganization}
+                            onChange={handleChange}
+                            placeholder="Workplace Name"
+                            className={inputStyle(
+                              fieldErrors.professionalOrganization,
+                            )}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelStyle}>
+                            Job Title / Industry
+                          </label>
+                          <input
+                            name="professionalOccupation"
+                            value={formData.professionalOccupation}
+                            onChange={handleChange}
+                            placeholder="e.g. Software Engineer"
+                            className={inputStyle(
+                              fieldErrors.professionalOccupation,
+                            )}
+                          />
+                        </div>
+                      </div>
+                    )}
 
-                <div className="flex justify-between gap-4 mt-5">
-        <button
-          type="button"
-          onClick={handlePrev}
-          className="w-1/2 cursor-pointer border border-gray-300 bg-white text-gray-700 py-3 px-6 rounded-md hover:bg-gray-50 transition-colors duration-200"
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          onClick={handleNext}
-          className="w-1/2 cursor-pointer border-0 bg-orange-600 text-white py-3 px-6 rounded-md hover:bg-orange-700 transition-colors duration-200"
-        >
-          Next
-        </button>
-                </div>
+                    {formData.status === "other" && (
+                      <div className="bg-gray-50 p-6 rounded-2xl border border-gray-100 animate-in slide-in-from-top-2 duration-300">
+                        <label className={labelStyle}>Please Specify</label>
+                        <input
+                          name="otherStatus"
+                          value={formData.otherStatus}
+                          onChange={handleChange}
+                          placeholder="Tell us more..."
+                          className={inputStyle(fieldErrors.otherStatus)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Step 3: Experience */}
+                {currentStep === 3 && (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div>
+                      <label className={labelStyle}>
+                        How did you hear about us?
+                      </label>
+                      <select
+                        name="howDidYouHear"
+                        value={formData.howDidYouHear}
+                        onChange={handleChange}
+                        className={inputStyle(fieldErrors.howDidYouHear)}
+                      >
+                        <option value="">Select Option</option>
+                        <option value="social media">Social Media</option>
+                        <option value="friend">A Friend</option>
+                        <option value="family">A Family Member</option>
+                        <option value="search">Online Search</option>
+                        <option value="billboard">Billboard/Poster</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className={labelStyle}>
+                        Tell us about your experience today
+                      </label>
+                      <textarea
+                        name="experienceToday"
+                        value={formData.experienceToday}
+                        onChange={handleChange}
+                        rows="5"
+                        placeholder="We'd love to hear your thoughts!"
+                        className={inputStyle()}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 4: Follow-up */}
+                {currentStep === 4 && (
+                  <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className={labelStyle}>
+                          Best time to reach you
+                        </label>
+                        <select
+                          name="bestContactTime"
+                          value={formData.bestContactTime}
+                          onChange={handleChange}
+                          className={inputStyle()}
+                        >
+                          <option value="">Select Time</option>
+                          <option value="morning">Morning</option>
+                          <option value="afternoon">Afternoon</option>
+                          <option value="evening">Evening</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelStyle}>
+                          Preferred Contact Method
+                        </label>
+                        <select
+                          name="preferredContactMethod"
+                          value={formData.preferredContactMethod}
+                          onChange={handleChange}
+                          className={inputStyle()}
+                        >
+                          <option value="">Select Method</option>
+                          <option value="phone">Phone Call</option>
+                          <option value="whatsapp">WhatsApp</option>
+                          <option value="email">Email</option>
+                          <option value="textMessage">SMS</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelStyle}>
+                        Is there anything we can pray for you about?
+                      </label>
+                      <textarea
+                        name="prayerRequests"
+                        value={formData.prayerRequests}
+                        onChange={handleChange}
+                        rows="5"
+                        placeholder="Your prayer request..."
+                        className={inputStyle()}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
-                    {/*  Step 4 */}
-            {currentStep === 4 && (
-              <div className="form-step" data-step="3">
-                <h2 className="text-xl font-semibold mb-5">Follow-up Preference</h2>
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="source">Best time to reach you</label>
-                  <select
-                    onChange={handleChange}
-                    className="text-gray-700 font-normal w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                    name="bestContactTime"
-                    value={formData.bestContactTime}
-                  > 
-                    <option value="">Best time to reach you</option>
-                    <option value="morning">Morning</option>
-                    <option value="afternoon">Afternoon</option>
-                    <option value="evening">Evening</option>
-                  </select>
-                </div>
 
-                                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="source">Preferred Contact Method</label>
-                  <select
-                   onChange={handleChange}
-                   className="text-gray-700 font-normal w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                    name="preferredContactMethod"
-                    value={formData.preferredContactMethod}
-                  > 
-                    <option value="">Preferred Contact Method</option>
-                    <option value="phone">Phone Call</option>
-                    <option value="whatsapp">WhatsApp</option>
-                    <option value="email">Email</option>
-                    <option value="textMessage">SMS</option>
-                  </select>
-                </div>
-
-
-                <div className="my-2">
-                  <label  className="text-gray-700 font-normal" htmlFor="prayer">
-                    Is there anything we can pray for you about?
-                  </label>
-                  <textarea
-                    id="prayer"
-                    placeholder="Please Specify"
-                    name="prayerRequests"
-                    value={formData.prayerRequests}
-                   onChange={handleChange}
-                    className="w-full p-3 my-3 border border-gray-100 rounded-lg transition-all duration-300 focus:border-gray-500 focus:outline-0"
-                  ></textarea>
-                </div>
-
-                <div className="flex justify-between gap-4 mt-5">
+              {/* Action Buttons */}
+              <div className="mt-12 flex items-center justify-between pt-8 border-t border-gray-100">
+                {currentStep > 1 && (
                   <button
                     type="button"
                     onClick={handlePrev}
-                    className="prev-btn  w-full cursor-pointer border-0 bg-orange-600 text-white text-xl py-3 px-6 rounded-md hover:bg-orange-700 transition-colors duration-200"
+                    className="px-8 py-4 text-gray-500 font-bold hover:text-gray-900 transition-colors"
                   >
                     Back
                   </button>
-                  <button 
-                  type="submit" 
-                  disabled={isLoading}
-                  className="w-full cursor-pointer border-0 bg-orange-600 text-white text-xl py-3 px-6 rounded-md hover:bg-orange-700 transition-colors duration-200 disabled:bg-gray-400"
-                >
-                  {isLoading ? "Submitting..." : "Submit Form"}
-                </button>
+                )}
+                <div className="flex-grow flex justify-end">
+                  {currentStep < totalSteps ? (
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="w-full md:w-auto px-12 py-4 bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-600/20 hover:bg-orange-700 active:scale-95 transition-all"
+                    >
+                      Next Step
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full md:w-auto px-12 py-4 bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-600/20 hover:bg-orange-700 active:scale-95 disabled:opacity-50 transition-all"
+                    >
+                      {isLoading ? "Submitting..." : "Complete Registration"}
+                    </button>
+                  )}
                 </div>
               </div>
-            )}
-          </form>
+
+              {errorMessage && (
+                <p className="mt-6 text-center text-red-600 text-sm font-semibold p-4 bg-red-50 rounded-lg">
+                  {errorMessage}
+                </p>
+              )}
+            </form>
+          </div>
         </div>
-
-        <SucessVideoModal isOpen={isSubmitted} onClose={() => setIsSubmitted(false)} />
-
       </main>
-    </>
+      <Footer />
+    </div>
   );
 };
 

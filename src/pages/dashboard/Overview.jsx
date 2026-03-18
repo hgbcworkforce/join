@@ -1,99 +1,123 @@
 import { useState, useEffect } from 'react';
 import API from '../../api/axios';
-import MetricsCards from '../../components/dashboard/MetricsCards'
-
-
+import MetricsCards from '../../components/dashboard/MetricsCards';
+import { FaChevronRight } from 'react-icons/fa6';
 
 const Overview = () => {
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
-        const res = await API.get('/first-timers?page=1&limit=5');
+        // Updated API call within useEffect
+        const res = await API.get('/first-timers?page=1&limit=7'); // Changed limit to 7
         setData(res.data.data);
-
       } catch (error) {
         console.error("Fetch failed", error);
       } finally {
-        setLoading(false); // Stop loading regardless of success/fail
+        setLoading(false);
       }
     };
-
     fetchData();
-  });
+  }, []); // Added missing dependency array
 
-
+  const getStatusStyles = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'active': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+      case 'pending': return 'bg-amber-100 text-amber-700 border-amber-200';
+      default: return 'bg-slate-100 text-slate-700 border-slate-200';
+    }
+  };
 
   return (
-    <div className=''>
-      <div className='flex flex-col justify-start'>
-        <h2 className='text-2xl md:text-4xl font-bold text-gray-800'>Overview</h2>
-        <p className='text-gray-600'>View key metrics and insights at a glance.</p>
-
+    <div className="max-w-[1600px] mx-auto space-y-8 animate-in fade-in duration-500">
+      
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Overview</h2>
+          <p className="text-slate-500 mt-1">Real-time performance and recent influencer activity.</p>
+        </div>
       </div>
-      <div className='flex flex-col space-y-8 mt-16'>
-        <MetricsCards />
 
-        <div className='bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto'>
-          {/* Header Section */}
-          <div className='p-6 border-b border-gray-50 flex justify-between items-center'>
-            <h2 className='text-xl font-bold text-gray-800 tracking-tight'>Recent Submissions</h2>
-          </div>
+      {/* Metrics Section */}
+      <MetricsCards />
 
-          <div className='overflow-x-auto'>
-            <table className='w-full text-left border-separate border-spacing-0'>
-              <thead>
-                <tr className='bg-gray-50/50'>
-                  <th className='px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100'>Name</th>
-                  <th className='px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100'>Gender</th>
-                  <th className='px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100'>Contact Info</th>
-                  <th className='px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100'>Status</th>
-                </tr>
-              </thead>
+      {/* Recent Submissions Table Section */}
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        
+        {/* Table Header */}
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+          <h3 className="text-lg font-bold text-slate-800">Recent Submissions</h3>
+        </div>
 
-              <tbody className='divide-y divide-gray-100'>
+        {/* Responsive Table Wrapper */}
+        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-200">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50/50 border-b border-slate-100">
+                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Name</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center">Gender</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Contact Info</th>
+                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Status</th>
+              </tr>
+            </thead>
 
-                {data.map((data) => (
-                  <tr key={data.id} className='hover:bg-blue-50/30 transition-all duration-200 group'>
-                    <td className='px-6 py-4'>
-                      <div className='flex items-center'>
-                        <div className='h-9 w-9 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm mr-3'>
-                          {data.fullName.split(' ').map(n => n[0]).join('')}
+            <tbody className="divide-y divide-slate-100">
+              {loading ? (
+                // Skeleton Loader
+                [...Array(5)].map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="px-6 py-5"><div className="h-10 w-40 bg-slate-100 rounded-lg" /></td>
+                    <td className="px-6 py-5"><div className="h-6 w-12 bg-slate-100 rounded-md mx-auto" /></td>
+                    <td className="px-6 py-5"><div className="h-10 w-48 bg-slate-100 rounded-lg" /></td>
+                    <td className="px-6 py-5"><div className="h-8 w-20 bg-slate-100 rounded-full" /></td>
+                  </tr>
+                ))
+              ) : data.length > 0 ? (
+                data.map((item) => (
+                  <tr key={item.id} className="hover:bg-slate-50/80 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 shrink-0 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs border border-indigo-100 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                          {item.fullName.split(' ').map(n => n[0]).join('')}
                         </div>
-                        <span className='font-medium text-gray-900'>{data.fullName}</span>
+                        <span className="font-semibold text-slate-700 whitespace-nowrap">{item.fullName}</span>
                       </div>
                     </td>
-                        <td className='px-6 py-4'>
-                      <span className='text-xs font-medium text-gray-900'>
-                        {data.gender}
+                    <td className="px-6 py-4 text-center">
+                      <span className="text-sm font-medium text-slate-600 bg-slate-100 px-2 py-1 rounded capitalize">
+                        {item.gender}
                       </span>
                     </td>
-                    <td className='px-6 py-4'>
-                      <div className='flex flex-col'>
-                        <span className='text-sm text-gray-700'>{data.email}</span>
-                        <span className='text-xs text-gray-400'>{data.phoneNumber}</span>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-slate-700">{item.email}</span>
+                        <span className="text-xs text-slate-400 font-mono tracking-tighter">{item.phoneNumber}</span>
                       </div>
                     </td>
-                                        <td className='px-6 py-4'>
-                      <span className='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800'>
-                        {data.status}
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${getStatusStyles(item.status)}`}>
+                        {item.status}
                       </span>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="px-6 py-12 text-center text-slate-400">
+                    No submissions found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
-
       </div>
     </div>
+  );
+};
 
-  )
-}
-
-export default Overview
+export default Overview;
