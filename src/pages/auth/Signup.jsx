@@ -18,7 +18,6 @@ const handleChange = (e) => {
 };
 
 // const API_URL = import.meta.env.VITE_API_BASE_URL; 
-const API_URL = API.getBaseURL(); // Using the helper function from api.js
 
 const handleSubmit = async (e) => {
   e.preventDefault(); // Stops the page from reloading
@@ -72,9 +71,9 @@ function showConfirmation() {
             </h2>
 
             <div className='mt-4'>
-                 <div className='flex flex-col space-y-1 mb-4'>
-                    <label htmlFor="name" className='text-gray-600 font-semibold'>Full Name</label>
-                    <input type="text" name="fullName" id="name" 
+                <div className='flex flex-col space-y-1 mb-4'>
+                    <label htmlFor="fullName" className='text-gray-600 font-semibold'>Full Name</label>
+                    <input type="text" name="fullName" id="fullName" value={formData.fullName} onChange={handleChange} required 
                       className='w-full h-10 rounded-md border border-gray-300 px-2 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-orange-400'
                     />
                 </div>

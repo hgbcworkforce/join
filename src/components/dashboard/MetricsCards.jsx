@@ -6,7 +6,6 @@ import { FaFileImport, FaCalendarDay, FaUserCheck, FaShareNodes } from "react-ic
 const MetricsCards = () => {
 
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [topDiscoverySource, setTopDiscoverySource] = useState(null);
   const [topDiscoveryCount, setTopDiscoveryCount] = useState(0);
   const [dailySubmission, setDailySubmission] = useState(0)
@@ -45,7 +44,6 @@ const getDailySubmissions = (submissions) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start loading
       try {
         const res = await API.get("/first-timers");
         setData(res.data.data);
@@ -60,8 +58,6 @@ const getDailySubmissions = (submissions) => {
 
       } catch (error) {
         console.error("Fetch failed", error);
-      } finally {
-        setLoading(false); // Stop loading regardless of success/fail
       }
     };
 

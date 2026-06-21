@@ -49,7 +49,10 @@ const Navbar = () => {
 
   // Close mobile menu when route changes
   useEffect(() => {
-    setMobileMenuOpen(false);
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 
   const handleLinkClick = () => {
@@ -98,12 +101,12 @@ const Navbar = () => {
 
             {/* CTA Button - Fixed nested Link issue */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Link 
-                to='/give'
+              <a 
+                href='https://www.hgbcinfluencers.org/give'
                 className="bg-orange-500 text-white px-6 py-2.5 font-medium text-sm transition-all duration-300 hover:bg-orange-600 cursor-pointer inline-block text-center"
               >
                 Give
-              </Link>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -155,9 +158,9 @@ const Navbar = () => {
             {/* Mobile Menu Links */}
             <div className="flex-1 px-6 py-8 mt-16 space-y-2">
               {navLinks.map((item, index) => (
-                <Link
+                <a
                   key={item.name}
-                  to={item.path}
+                  href={item.path}
                   onClick={handleLinkClick}
                   className={`block px-4 py-3 rounded-xl text-lg font-medium transition-all duration-200 ${
                     location.pathname === item.path
@@ -169,19 +172,19 @@ const Navbar = () => {
                   }}
                 >
                   {item.name}
-                </Link>
+                </a>
               ))}
             </div>
 
             {/* Mobile Menu Footer - Fixed nested Link issue */}
             <div className="p-6 border-t border-gray-200/20">
-              <Link
-                to='/give'
+              <a
+                href='https://www.hgbcinfluencers.org/give'
                 onClick={handleLinkClick}
                 className="block w-full bg-orange-500 text-white px-6 py-3 rounded-xl font-medium text-lg hover:shadow-lg transition-all duration-300 hover:bg-orange-600 cursor-pointer text-center"
               >
                 Give
-              </Link>
+              </a>
             </div>
           </div>
         </div>

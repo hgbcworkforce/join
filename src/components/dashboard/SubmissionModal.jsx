@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaUser, FaGraduationCap, FaCheck, FaChurch, FaHandsPraying, FaCopy, FaXmark, FaEnvelope, FaPhone, FaLocationDot, FaBriefcase } from 'react-icons/fa6';
+import { FaUser, FaGraduationCap, FaCheck, FaChurch, FaHandsPraying, FaCopy, FaXmark, FaEnvelope, FaPhone, FaBriefcase } from 'react-icons/fa6';
 
 const SubmissionModal = ({ data, onClose }) => {
     const [copiedField, setCopiedField] = useState("");
@@ -11,6 +11,8 @@ const SubmissionModal = ({ data, onClose }) => {
     };
 
     if (!data) return null;
+
+    const statusLower = data.status?.toLowerCase();
 
     return (
         <div
@@ -32,12 +34,12 @@ const SubmissionModal = ({ data, onClose }) => {
                 {/* Header: Identity & Status */}
                 <div className="p-8 pb-4 flex flex-col md:flex-row gap-6 border-b border-slate-50">
                     <div className="w-20 h-20 shrink-0 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-indigo-100">
-                        {data.fullName?.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        {data.fullName?.split(' ').filter(Boolean).map(n => n[0]).join('').toUpperCase() || '?'}
                     </div>
                     <div>
-                        <div className='flex flex-row space-x-1 items-center'>
-                                 <h1 className="text-2xl font-extrabold text-slate-900">{data.fullName}</h1>
-                                 <span className="text-sm text-green-800 bg-green-200 px-3 rounded-full">Contacted</span>
+                        <div className='flex flex-row space-x-2 items-center'>
+                            <h1 className="text-2xl font-extrabold text-slate-900">{data.fullName}</h1>
+                            <span className="text-xs font-bold text-green-800 bg-green-100 px-3 py-1 rounded-full border border-green-200">New Timer</span>
                         </div>
                         <div className="flex gap-2 mt-2">
                             <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider border border-slate-200">
@@ -78,6 +80,8 @@ const SubmissionModal = ({ data, onClose }) => {
                              icon={<FaEnvelope />} 
                              label="Email" 
                              value={data.email} 
+                             onCopy={() => copyToClipboard(data.email, 'email')}
+                             isCopied={copiedField === 'email'}
                            />
                         </div>
                     </section>
@@ -85,21 +89,21 @@ const SubmissionModal = ({ data, onClose }) => {
                     {/* SECTION 2: CONDITIONAL DETAILS (Based on Status) */}
                     <section className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                         <div className="flex items-center gap-2 mb-6">
-                            {data.status === 'Student' ? <FaGraduationCap className="text-indigo-600" /> : <FaBriefcase className="text-indigo-600" />}
+                            {statusLower === 'student' ? <FaGraduationCap className="text-indigo-600" /> : <FaBriefcase className="text-indigo-600" />}
                             <h2 className="text-[11px] font-black text-slate-500 uppercase tracking-widest">
                                 {data.status} specific Details
                             </h2>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {data.status === 'Student' ? (
+                            {statusLower === 'student' ? (
                                 <>
                                     <DetailItem label="Institution" value={data.studentInstitution} />
                                     <DetailItem label="Faculty" value={data.studentFaculty} />
                                     <DetailItem label="Department" value={data.studentDepartment} />
                                     <DetailItem label="Academic Level" value={data.studentLevel} />
                                 </>
-                            ) : data.status === 'Professional' ? (
+                            ) : statusLower === 'professional' ? (
                                 <>
                                     <DetailItem label="Organization" value={data.professionalOrganization} />
                                     <DetailItem label="Occupation Field" value={data.professionalOccupation} />
@@ -121,7 +125,7 @@ const SubmissionModal = ({ data, onClose }) => {
                                 <p className="text-[10px] font-bold text-indigo-400 uppercase mb-2">How they heard</p>
                                 <p className="text-sm text-slate-800 font-medium mb-4">{data.howDidYouHear}</p>
                                 <p className="text-[10px] font-bold text-indigo-400 uppercase mb-2">Today's Experience</p>
-                                <p className="text-sm italic text-slate-600 leading-relaxed">"{data.experienceToday}"</p>
+                                <p className="text-sm italic text-slate-600 leading-relaxed">"{data.experienceToday || 'N/A'}"</p>
                             </div>
                         </section>
 
@@ -145,8 +149,8 @@ const SubmissionModal = ({ data, onClose }) => {
                     <button onClick={onClose} className="px-5 py-2 text-sm font-bold text-slate-500 hover:text-slate-700">
                         Close
                     </button>
-                    <button className="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all">
-                        Mark as Contacted
+                    <button onClick={onClose} className="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all">
+                        Close Details
                     </button>
                 </div>
             </div>

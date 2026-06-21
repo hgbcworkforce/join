@@ -14,6 +14,20 @@ const Submissions = () => {
 
   const nPages = Math.ceil(totalRecords / recordsPerPage);
 
+  const getStatusBadge = (status) => {
+    const styles = {
+      student: "bg-blue-50 text-blue-700 border-blue-100",
+      professional: "bg-purple-50 text-purple-700 border-purple-100",
+      other: "bg-slate-50 text-slate-700 border-slate-100"
+    };
+    return styles[status?.toLowerCase()] || styles.other;
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); 
+  };
+
 // Fetch Logic
   useEffect(() => {
     const fetchData = async () => {
@@ -44,22 +58,7 @@ const Submissions = () => {
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [currentPage, searchTerm]); // Trigger fetch on page change OR search
-
-  // Reset to page 1 when searching
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1); 
-  };
-
-  const getStatusBadge = (status) => {
-    const styles = {
-      Student: "bg-blue-50 text-blue-700 border-blue-100",
-      Professional: "bg-purple-50 text-purple-700 border-purple-100",
-      Other: "bg-slate-50 text-slate-700 border-slate-100"
-    };
-    return styles[status] || styles.Other;
-  };
+  }, [currentPage, searchTerm]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
@@ -190,7 +189,7 @@ const Submissions = () => {
             </div>
 
             <button
-              disabled={data.length < recordsPerPage && currentPage >= nPages}
+              disabled={currentPage >= nPages}
               onClick={(e) => { e.stopPropagation(); setCurrentPage(prev => prev + 1); }}
               className="p-2 border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm"
             >
