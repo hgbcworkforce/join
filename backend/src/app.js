@@ -7,6 +7,9 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
+// Enable trust proxy for Render / reverse proxies
+app.set("trust proxy", 1);
+
 // CORS configuration
 const allowedOrigins = (process.env.CORS_ORIGIN || "")
   .split(",")
@@ -29,7 +32,7 @@ app.use(
       ) {
         return callback(null, true);
       }
-      return callback(null, true); // Permissive in production to prevent CORS blocks between frontend and backend on Render
+      return callback(null, true); // Permissive in production
     },
     credentials: true,
     exposedHeaders: ["x-total-count"],
