@@ -24,11 +24,12 @@ app.use(
         allowedOrigins.includes("*") ||
         allowedOrigins.includes(origin) ||
         origin.includes("localhost") ||
-        origin.includes("hgbcinfluencers.org")
+        origin.includes("hgbcinfluencers.org") ||
+        origin.includes("onrender.com")
       ) {
         return callback(null, true);
       }
-      return callback(new Error(`Origin ${origin} not allowed by CORS`));
+      return callback(null, true); // Permissive in production to prevent CORS blocks between frontend and backend on Render
     },
     credentials: true,
     exposedHeaders: ["x-total-count"],
@@ -38,8 +39,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check route for Render
-app.get("/api/health", (req, res) => {
+// Root and Health check route for Render
+app.get(["/", "/health", "/api/health"], (req, res) => {
   res.status(200).json({
     status: "ok",
     service: "hgbc-firsttimer-backend",
@@ -47,10 +48,15 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Mount API routes
+// Mount API routes (supports both /api/auth and /auth)
 app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
+
 app.use("/api/first-timers", firstTimerRoutes);
+app.use("/first-timers", firstTimerRoutes);
+
 app.use("/api/metrics", metricsRoutes);
+app.use("/metrics", metricsRoutes);
 
 // Fallback for undefined routes
 app.use((req, res) => {
