@@ -11,6 +11,9 @@ import Signup from './pages/auth/Signup'
 import Signin from './pages/auth/Signin'
 import NotFound from './pages/NotFound'
 
+// Scroll To Top Component
+import ScrollToTop from './components/ScrollToTop'
+
 
 
 
@@ -21,29 +24,32 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <Routes>
-      {/* Public Landing Page */}
-      <Route path="/" element={<Hero />} />
+    <>
+      <ScrollToTop />
+      <Routes>
+        {/* Public Landing Page */}
+        <Route path="/" element={<Hero />} />
 
-      {/* Auth Routes */}
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/signin" element={<Signin />} />
+        {/* Auth Routes */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
 
-      {/* Dashboard Routes*/}
-      <Route path="/dashboard" element={
-         <ProtectedRoute>
-           <DashboardLayout />
-         </ProtectedRoute>
-       }>
+        {/* Dashboard Routes*/}
+        <Route path="/dashboard" element={
+           <ProtectedRoute>
+             <DashboardLayout />
+           </ProtectedRoute>
+         }>
 
-        <Route index element={<Overview />} />
-        <Route path="submissions" element={<Submissions />} />
-      </Route>
+          <Route index element={<Overview />} />
+          <Route path="submissions" element={<Submissions />} />
+        </Route>
 
 
-      {/* Catch-all route for 404 Not Found */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        {/* Catch-all route for 404 Not Found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   )
 }
 

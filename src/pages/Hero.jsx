@@ -147,16 +147,36 @@ const Hero = () => {
     }
 
     setIsLoading(true);
+    setErrorMessage("");
     try {
       await API.post("/first-timers", formData);
       setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        window.location.reload();
-        Navigate("/");
-      }, 30000);
-    } catch {
-      setErrorMessage("Failed to submit. Please check your connection.");
+      setFormData({
+        fullName: "",
+        gender: "",
+        dateOfBirth: "",
+        phoneNumber: "",
+        email: "",
+        residenceAddress: "",
+        status: "",
+        studentLevel: "",
+        studentFaculty: "",
+        studentDepartment: "",
+        studentInstitution: "",
+        professionalOrganization: "",
+        professionalOccupation: "",
+        otherStatus: "",
+        howDidYouHear: "",
+        experienceToday: "",
+        bestContactTime: "",
+        preferredContactMethod: "",
+        prayerRequests: "",
+      });
+      setFieldErrors({});
+    } catch (err) {
+      setErrorMessage(
+        err.response?.data?.message || "Failed to submit. Please check your connection and try again."
+      );
     } finally {
       setIsLoading(false);
     }
