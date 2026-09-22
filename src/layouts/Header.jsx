@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fa6';
 import { useAuth } from '../context/AuthContext';
 
-const Header = ({ isExpanded }) => {
+const Header = ({ isExpanded, setIsExpanded, isMobileOpen, setIsMobileOpen }) => {
   const { user, loading, logout, refreshUser } = useAuth();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -92,43 +92,51 @@ const Header = ({ isExpanded }) => {
     : null;
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 px-6 py-3">
-      <div className="flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 px-3 sm:px-6 py-2.5 sm:py-3">
+      <div className="flex items-center justify-between gap-2 sm:gap-4">
 
-        {/* Left Side: Toggle & Breadcrumb/Title */}
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:block">
-            <h1 className="text-xl font-bold text-slate-800 tracking-tight">
-              Welcome back{firstName ? `, ${firstName}` : ''}!
+        {/* Left Side: Mobile Hamburger Button & Title */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button
+            onClick={() => setIsMobileOpen && setIsMobileOpen(!isMobileOpen)}
+            className="p-2 text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-xl md:hidden transition-colors cursor-pointer"
+            aria-label="Toggle mobile menu"
+          >
+            <FaBars className="text-lg" />
+          </button>
+
+          <div>
+            <h1 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 tracking-tight truncate max-w-[180px] sm:max-w-none">
+              Welcome{firstName ? `, ${firstName}` : ''}!
             </h1>
           </div>
         </div>
 
         {/* Right Side: Actions */}
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-1 sm:gap-3">
 
-          {/* Subtle Search Icon */}
+          {/* Search Icon */}
           <button
             aria-label="Search"
-            className="p-2.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-full transition-all"
+            className="p-2 sm:p-2.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-full transition-all"
           >
-            <FaMagnifyingGlass className="text-lg" />
+            <FaMagnifyingGlass className="text-base sm:text-lg" />
           </button>
 
           {/* Notifications */}
           <button
             aria-label="Notifications"
-            className="relative p-2.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-full transition-all"
+            className="relative p-2 sm:p-2.5 text-slate-500 hover:text-orange-600 hover:bg-orange-50 rounded-full transition-all"
           >
-            <FaBell className="text-lg" />
-            <span className="absolute top-2 right-2.5 w-2 h-2 bg-orange-500 border-2 border-white rounded-full"></span>
+            <FaBell className="text-base sm:text-lg" />
+            <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2.5 w-2 h-2 bg-orange-500 border-2 border-white rounded-full"></span>
           </button>
 
           {/* Real User Profile Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center gap-3 pl-2 ml-2 border-l border-gray-200 group focus:outline-none cursor-pointer"
+              className="flex items-center gap-2 sm:gap-3 pl-1.5 sm:pl-2 ml-1 sm:ml-2 border-l border-gray-200 group focus:outline-none cursor-pointer"
               aria-expanded={isProfileOpen}
               aria-haspopup="true"
             >
@@ -152,10 +160,10 @@ const Header = ({ isExpanded }) => {
 
               {/* Avatar Circle with initials */}
               <div className="relative">
-                <div className="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-sm group-hover:shadow-md group-hover:ring-2 group-hover:ring-orange-500/30 transition-all">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-sm group-hover:shadow-md group-hover:ring-2 group-hover:ring-orange-500/30 transition-all">
                   {initials}
                 </div>
-                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                <span className="absolute bottom-0 right-0 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
               </div>
 
               <FaChevronDown
@@ -165,12 +173,12 @@ const Header = ({ isExpanded }) => {
 
             {/* Dropdown Menu */}
             {isProfileOpen && (
-              <div className="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute right-0 mt-3 w-[calc(100vw-2rem)] max-w-xs sm:w-72 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
 
                 {/* Header Profile Summary */}
                 <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/70 rounded-t-xl">
                   <div className="flex items-center gap-3">
-                    <div className="h-11 w-11 shrink-0 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-base shadow-sm">
+                    <div className="h-10 w-10 sm:h-11 sm:w-11 shrink-0 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base shadow-sm">
                       {initials}
                     </div>
                     <div className="overflow-hidden">
@@ -211,7 +219,7 @@ const Header = ({ isExpanded }) => {
                       setIsProfileOpen(false);
                       navigate('/dashboard/profile');
                     }}
-                    className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors cursor-pointer text-left"
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-orange-50 hover:text-orange-600 rounded-xl transition-colors cursor-pointer text-left min-h-[40px]"
                   >
                     <FaUser className="text-xs text-slate-400" />
                     <span>My Profile & Settings</span>
@@ -220,7 +228,7 @@ const Header = ({ isExpanded }) => {
                   <button
                     onClick={handleManualRefresh}
                     disabled={isRefreshing}
-                    className="w-full flex items-center justify-between px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer"
+                    className="w-full flex items-center justify-between px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer min-h-[40px]"
                   >
                     <span className="flex items-center gap-2.5">
                       <FaRotate className={`text-slate-400 text-xs ${isRefreshing ? 'animate-spin text-orange-600' : ''}`} />
@@ -231,7 +239,7 @@ const Header = ({ isExpanded }) => {
 
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
+                    className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-xs font-semibold text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer min-h-[40px]"
                   >
                     <FaArrowRightFromBracket className="text-xs" />
                     <span>Sign Out</span>
