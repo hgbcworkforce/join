@@ -2,6 +2,11 @@
 @import "tailwindcss";
 
 
+@theme {
+    --color-brand-navy: #0f2548;
+    --color-brand-orange: #ea580c;
+}
+
 
 
 /* Hero Animations */
@@ -25,17 +30,47 @@
 
 
 @keyframes barFade {
+
     /* Always keep -50% to maintain the center horizontal alignment */
-    0% { height: 0; opacity: 0; transform: translateY(0) translateX(35%); }
-    50% { height: 25px; opacity: 1;  transform: translateY(0) translateX(35%); }
-    100% { height: 25px; opacity: 1;  transform: translateY(5px) translateX(35%); }
+    0% {
+        height: 0;
+        opacity: 0;
+        transform: translateY(0) translateX(35%);
+    }
+
+    50% {
+        height: 25px;
+        opacity: 1;
+        transform: translateY(0) translateX(35%);
+    }
+
+    100% {
+        height: 25px;
+        opacity: 1;
+        transform: translateY(5px) translateX(35%);
+    }
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(10px); }
-    30% { opacity: 1; transform: translateY(0); }
-    70% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-10px); }
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    70% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 }
 
 
@@ -44,11 +79,20 @@
     animation: slideIn 0.5s forwards;
 }
 
-.form-step.active { display: block; }
+.form-step.active {
+    display: block;
+}
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 
@@ -60,6 +104,13 @@
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(1.8); opacity: 0; }
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
 }

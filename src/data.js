@@ -3,16 +3,10 @@ import {
   FaYoutube,
   FaFacebookF,
   FaInstagram,
+  FaWhatsapp,
 } from "react-icons/fa6";
 
 
-
-export const navLinks = [
-  {name: "About", path: "https://www.hgbcinfluencers.org/about"},
-  // { name: "Quick-Links", path: "/ql" },
-  { name: "Online", path: "https://www.hgbcinfluencers.org/watch-live" },
-  { name: "Sermon", path: "https://www.hgbcinfluencers.org/sermon" },
-];
 
 export const footerLinks = [
   { name: "About", path: "https://www.hgbcinfluencers.org/about" },
@@ -22,19 +16,19 @@ export const footerLinks = [
 
 export const contactLinks = [
   { name: "First Timer", path: "https://www.hgbcinfluencers.org/join" },
-  // { name: "Sermon", path: "https://www.hgbcinfluencers.org/sermon" },
 ];
 
 export const mediaLinks = [
   { name: "Watch Live", path: "https://www.hgbcinfluencers.org/watch-live" },
   { name: "Sermon", path: "https://www.hgbcinfluencers.org/sermon" },
+  { name: "YouTube", path: "https://www.youtube.com/@hgbcinfluencers" },
 ];
 
 
 export const socialLinks = [
-  { icon: FaFacebookF, path: "https://facebook.com/hgbcinfluencers" },
-  { icon: FaInstagram, path: "https://instagram.com/hgbcinfluencers" },
-  { icon: FaXTwitter, path: "https://x.com/hgbcinfluencers" },
+  { icon: FaFacebookF, path: "https://facebook.com/hgbcglobal" },
+  { icon: FaInstagram, path: "https://instagram.com/hgbcglobal" },
+  { icon: FaWhatsapp, path: "https://www.whatsapp.com/channel/0029VbBXJeBEgGfDzuTFQ237" },
   { icon: FaYoutube, path: "https://youtube.com/@hgbcinfluencers" },
 ];
 

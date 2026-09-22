@@ -222,15 +222,12 @@ const Hero = () => {
           style={{ backgroundImage: `url(${herobg})` }}
         >
           <div className="absolute inset-0 bg-black/60" />
-          {/* Navbar Wrapper */}
+
           <div className="relative z-30 w-full">
             <Navbar />
           </div>
 
           <div className="relative z-10 max-w-4xl">
-            <span className="inline-block px-5 py-2 text-[10px] tracking-[0.3em] bg-white/10 backdrop-blur-md text-orange-500 font-black rounded-full mb-8 border border-white/20 uppercase">
-              First Timers
-            </span>
             <h1 className="text-5xl md:text-7xl font-black uppercase mb-6 tracking-tighter leading-tight">
               WELCOME TO HGBC
             </h1>
@@ -242,29 +239,24 @@ const Hero = () => {
         </section>
 
         {/* Card Form Container */}
-        <div className="max-w-6xl mx-auto mt-20 md:-mt-24 relative z-20 px-4 pb-20 ">
-          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+        <div className="max-w-6xl mx-auto mt-20 lg:-mt-24 relative z-20 px-4 pb-20 ">
+          <div className="bg-white rounded-3xl shadow-md overflow-hidden border border-gray-100">
             <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-8">
               <div className="flex justify-between items-center border-b border-gray-100 pb-5 mb-8">
                 <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight uppercase">
-                  Registration Check-in
+                  Fill in your details
                 </h2>
-                <div>
-                  <span className="text-orange-600 font-black text-[10px] tracking-widest uppercase bg-orange-50 px-3 py-1.5 rounded-full border border-orange-100">
-                    Direct Check-in
-                  </span>
-                </div>
               </div>
 
               {/* Main Grid: Left column (Personal) & Right column (Occupational & Connection) */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
+
                 {/* Column 1: Personal Information */}
                 <div className="space-y-6 bg-slate-50/40 p-6 rounded-2xl border border-slate-100">
-                  <h3 className="text-xs font-black uppercase tracking-wider text-orange-600 border-b border-slate-100 pb-2">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-brand-orange border-b border-slate-100 pb-2">
                     1. Personal Details
                   </h3>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
                       <label className={labelStyle}>Full Name</label>
@@ -375,10 +367,10 @@ const Hero = () => {
                 <div className="space-y-6 flex flex-col justify-between">
                   {/* Status Selection Box */}
                   <div className="bg-slate-50/40 p-6 rounded-2xl border border-slate-100 space-y-4">
-                    <h3 className="text-xs font-black uppercase tracking-wider text-orange-600 border-b border-slate-100 pb-2">
+                    <h3 className="text-xs font-black uppercase tracking-wider text-brand-orange border-b border-slate-100 pb-2">
                       2. Occupational Status
                     </h3>
-                    
+
                     <div>
                       <label className={labelStyle}>Current Status</label>
                       <select
@@ -518,7 +510,7 @@ const Hero = () => {
 
                   {/* Connect and Discovery */}
                   <div className="bg-slate-50/40 p-6 rounded-2xl border border-slate-100 space-y-4">
-                    <h3 className="text-xs font-black uppercase tracking-wider text-orange-600 border-b border-slate-100 pb-2">
+                    <h3 className="text-xs font-black uppercase tracking-wider text-brand-orange border-b border-slate-100 pb-2">
                       3. Connection & Preferences
                     </h3>
 
@@ -582,10 +574,10 @@ const Hero = () => {
 
               {/* Bottom Full-width Row: Experience & Prayer Requests */}
               <div className="bg-slate-50/40 p-6 rounded-2xl border border-slate-100 space-y-6 mt-6">
-                <h3 className="text-xs font-black uppercase tracking-wider text-orange-600 border-b border-slate-100 pb-2">
+                <h3 className="text-xs font-black uppercase tracking-wider text-brand-orange border-b border-slate-100 pb-2">
                   4. Experience & Requests
                 </h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className={labelStyle}>Tell us about your experience today</label>
@@ -618,7 +610,7 @@ const Hero = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full md:w-auto px-12 py-4 bg-orange-600 text-white font-black uppercase tracking-widest text-xs rounded-xl shadow-lg shadow-orange-600/20 hover:bg-orange-700 active:scale-95 disabled:opacity-50 transition-all cursor-pointer"
+                  className="w-full md:w-auto px-12 py-4 bg-brand-orange text-white font-black uppercase tracking-widest text-xs rounded-xl shadow-md hover:bg-brand-orange/90 active:scale-95 disabled:opacity-50 transition-all cursor-pointer"
                 >
                   {isLoading ? "Submitting..." : "Complete Registration"}
                 </button>
