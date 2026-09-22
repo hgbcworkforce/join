@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { 
-  FaArrowRightFromBracket, 
-  FaUserGroup, 
-  FaChartBar, 
-  FaUserGear, 
-  FaUser, 
+import {
+  FaArrowRightFromBracket,
+  FaUserGroup,
+  FaChartBar,
+  FaUserGear,
+  FaUser,
   FaXmark,
   FaChurch
 } from "react-icons/fa6";
@@ -47,7 +47,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobileOpen, setIsMobileOpen }) =
     <>
       {/* Mobile Drawer Backdrop Overlay */}
       {isMobileOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
           onClick={closeMobile}
           aria-hidden="true"
@@ -79,9 +79,7 @@ const Sidebar = ({ isExpanded, setIsExpanded, isMobileOpen, setIsMobileOpen }) =
 
               <div className={`${isExpanded ? 'block' : 'block md:hidden'} ml-3`}>
                 <span className='text-slate-800 text-sm font-bold tracking-tight block leading-tight'>
-                  Higher Ground
-                </span>
-                <span className='text-xs text-orange-600 font-semibold tracking-wide'>
+                  Higher Ground<br />
                   Baptist Church
                 </span>
               </div>
