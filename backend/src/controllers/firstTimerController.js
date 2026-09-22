@@ -204,11 +204,21 @@ export const getFirstTimerById = async (req, res, next) => {
 export const updateFirstTimer = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { followUpStatus, assignedTo } = req.body;
+    let { followUpStatus, assignedTo } = req.body;
 
     const updates = {};
-    if (followUpStatus) updates.follow_up_status = followUpStatus;
+    if (followUpStatus) {
+      const normalized = followUpStatus.toLowerCase();
+      // Map 'followed' to 'contacted' if applicable for database enum
+      if (normalized === "followed") {
+        updates.follow_up_status = "contacted";
+      } else {
+        updates.follow_up_status = normalized;
+      }
+    }
     if (assignedTo !== undefined) updates.assigned_to = assignedTo;
+
+    updates.updated_at = new Date().toISOString();
 
     const { data, error } = await supabase
       .from("first_timers")
@@ -223,8 +233,46 @@ export const updateFirstTimer = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: "First timer record updated successfully.",
+      message: "First timer submission updated successfully.",
       data: mapToCamelCase(data),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Protected Endpoint: Delete a First Timer submission (Admin only)
+ */
+export const deleteFirstTimer = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { data: existing, error: findError } = await supabase
+      .from("first_timers")
+      .select("id, full_name")
+      .eq("id", id)
+      .single();
+
+    if (findError || !existing) {
+      return res.status(404).json({
+        success: false,
+        message: "Submission not found or already deleted.",
+      });
+    }
+
+    const { error: deleteError } = await supabase
+      .from("first_timers")
+      .delete()
+      .eq("id", id);
+
+    if (deleteError) {
+      throw deleteError;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Submission for "${existing.full_name}" was deleted successfully.`,
     });
   } catch (error) {
     next(error);

@@ -4,6 +4,8 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import DashboardLayout from './layouts/DashboardLayout'
 import Overview from './pages/dashboard/Overview'
 import Submissions from './pages/dashboard/Submissions'
+import TeamMembers from './pages/dashboard/TeamMembers'
+import Profile from './pages/dashboard/Profile'
 import Hero from './pages/Hero'
 
 // Auth Pages
@@ -17,9 +19,28 @@ import ScrollToTop from './components/ScrollToTop'
 
 
 
+import { useAuth } from './context/AuthContext';
+
 const ProtectedRoute = ({ children }) => {
+  const { loading } = useAuth();
   const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/signin" replace />;
+
+  if (!token) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-10 h-10 border-3 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Loading Profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return children;
 };
 
 function App() {
@@ -43,6 +64,8 @@ function App() {
 
           <Route index element={<Overview />} />
           <Route path="submissions" element={<Submissions />} />
+          <Route path="team-members" element={<TeamMembers />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
 
