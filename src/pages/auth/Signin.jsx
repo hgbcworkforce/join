@@ -36,18 +36,18 @@ const Signin = () => {
   };
 
   return (
-    <div className='w-full min-h-screen bg-slate-50 flex flex-col justify-center px-4 py-12'>
+    <div className='w-full min-h-screen bg-slate-50 flex flex-col justify-center px-3 sm:px-4 py-8 sm:py-12'>
       <form 
         method="POST" 
         onSubmit={handleLogin}
-        className='max-w-md w-full mx-auto p-8 bg-white rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-center space-y-6'
+        className='max-w-md w-full mx-auto p-5 sm:p-8 bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-200 flex flex-col justify-center space-y-5 sm:space-y-6'
       >
-        <div className='flex items-center justify-center text-orange-500 w-20 h-20 p-3 rounded-2xl bg-orange-50 border border-orange-100 mx-auto'>
-          <FaUser className='w-8 h-8' />
+        <div className='flex items-center justify-center text-orange-500 w-16 h-16 sm:w-20 sm:h-20 p-3 rounded-2xl bg-orange-50 border border-orange-100 mx-auto shadow-inner'>
+          <FaUser className='w-7 h-7 sm:w-8 sm:h-8' />
         </div>
 
         <div className="text-center">
-          <h2 className='text-2xl font-bold text-slate-900'>
+          <h2 className='text-xl sm:text-2xl font-bold text-slate-900'>
             Team Portal Sign In
           </h2>
           <p className="text-xs text-slate-500 mt-1">
