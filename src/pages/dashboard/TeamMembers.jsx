@@ -254,24 +254,24 @@ const TeamMembers = () => {
       )}
 
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 bg-orange-100 text-orange-600 rounded-xl">
-              <FaUserGear className="text-xl" />
+            <div className="p-2 sm:p-2.5 bg-orange-100 text-orange-600 rounded-xl">
+              <FaUserGear className="text-lg sm:text-xl" />
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Team Members</h2>
-              <p className="text-slate-500 text-sm mt-0.5">Directory of workforce ministers, admins, and follow-up team members.</p>
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Team Members</h2>
+              <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Directory of workforce ministers, admins, and follow-up team members.</p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
           <button
             onClick={handleManualRefresh}
             disabled={isRefreshing}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all shadow-sm cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm cursor-pointer min-h-[42px]"
           >
             <FaRotate className={`text-xs ${isRefreshing ? 'animate-spin text-orange-600' : ''}`} />
             <span>{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
@@ -280,7 +280,7 @@ const TeamMembers = () => {
           {isAdmin && (
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-600/20 cursor-pointer"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-orange-600/20 cursor-pointer min-h-[42px]"
             >
               <FaUserPlus className="text-sm" />
               <span>Add Member</span>
@@ -291,60 +291,60 @@ const TeamMembers = () => {
 
       {/* Permission Notice Banner for Regular Members */}
       {!isAdmin && (
-        <div className="p-4 bg-amber-50/80 border border-amber-200 rounded-2xl flex items-center justify-between gap-3 text-amber-800 text-xs md:text-sm">
-          <div className="flex items-center gap-2.5 font-medium">
-            <FaCircleExclamation className="text-amber-600 text-base shrink-0" />
+        <div className="p-3.5 sm:p-4 bg-amber-50/80 border border-amber-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-amber-800 text-xs sm:text-sm">
+          <div className="flex items-start sm:items-center gap-2.5 font-medium">
+            <FaCircleExclamation className="text-amber-600 text-base shrink-0 mt-0.5 sm:mt-0" />
             <span>You have <strong>Read-Only</strong> access to the Team Directory. Contact a church administrator to request role adjustments.</span>
           </div>
-          <span className="shrink-0 px-2.5 py-1 bg-amber-100 text-amber-800 rounded-lg text-xs font-bold uppercase tracking-wider">
+          <span className="shrink-0 px-2.5 py-0.5 sm:py-1 bg-amber-100 text-amber-800 rounded-lg text-[11px] sm:text-xs font-bold uppercase tracking-wider self-start sm:self-auto">
             Team Member
           </span>
         </div>
       )}
 
       {/* Metrics Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
         {/* Total Members */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Members</p>
-            <p className="text-2xl font-extrabold text-slate-900 mt-1">{loading ? '...' : metrics.total}</p>
+            <p className="text-2xl font-extrabold text-slate-900 mt-0.5 sm:mt-1">{loading ? '...' : metrics.total}</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-lg sm:text-xl">
             <FaUserGroup />
           </div>
         </div>
 
         {/* Administrators */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Administrators</p>
-            <p className="text-2xl font-extrabold text-purple-700 mt-1">{loading ? '...' : metrics.admins}</p>
+            <p className="text-2xl font-extrabold text-purple-700 mt-0.5 sm:mt-1">{loading ? '...' : metrics.admins}</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg sm:text-xl">
             <FaShieldHalved />
           </div>
         </div>
 
         {/* Pastors & Ministers */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Pastors / Leaders</p>
-            <p className="text-2xl font-extrabold text-emerald-700 mt-1">{loading ? '...' : metrics.pastors}</p>
+            <p className="text-2xl font-extrabold text-emerald-700 mt-0.5 sm:mt-1">{loading ? '...' : metrics.pastors}</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg sm:text-xl">
             <FaUserTie />
           </div>
         </div>
 
         {/* Follow-up Team */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Follow-Up Workers</p>
-            <p className="text-2xl font-extrabold text-slate-700 mt-1">{loading ? '...' : metrics.teamMembers}</p>
+            <p className="text-2xl font-extrabold text-slate-700 mt-0.5 sm:mt-1">{loading ? '...' : metrics.teamMembers}</p>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg sm:text-xl">
             <FaUserGear />
           </div>
         </div>
@@ -352,7 +352,7 @@ const TeamMembers = () => {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <div className="relative w-full md:w-80 group">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <FaMagnifyingGlass className="text-slate-400 group-focus-within:text-orange-600 transition-colors" />
@@ -367,15 +367,15 @@ const TeamMembers = () => {
         </div>
 
         {/* Role Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1 mr-1">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-thin">
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1 mr-1 shrink-0">
             <FaFilter className="text-[10px]" /> Filter:
           </span>
           {['all', 'admin', 'pastor', 'team_member'].map((roleKey) => (
             <button
               key={roleKey}
               onClick={() => setRoleFilter(roleKey)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold capitalize transition-all cursor-pointer ${roleFilter === roleKey
+              className={`shrink-0 px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-semibold capitalize transition-all cursor-pointer ${roleFilter === roleKey
                 ? 'bg-slate-900 text-white shadow-sm'
                 : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                 }`}
@@ -387,9 +387,9 @@ const TeamMembers = () => {
       </div>
 
       {/* Team Members Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
 
-        <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h3 className="text-base font-bold text-slate-800">Team Directory</h3>
             <p className="text-xs text-slate-400 mt-0.5">Showing {filteredMembers.length} active registered accounts</p>
@@ -397,7 +397,7 @@ const TeamMembers = () => {
         </div>
 
         <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-200">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[700px] text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/70 border-b border-slate-100">
                 <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Member</th>
@@ -565,34 +565,35 @@ const TeamMembers = () => {
 
       {/* 1. UPDATE ROLE MODAL */}
       {roleModalUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200 max-h-[92vh] overflow-y-auto">
 
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-100">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-orange-50 text-orange-600 rounded-xl">
-                  <FaShieldHalved className="text-lg" />
+                  <FaShieldHalved className="text-base sm:text-lg" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">Manage Access Role</h3>
-                  <p className="text-xs text-slate-400">{roleModalUser.fullName}</p>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">Manage Access Role</h3>
+                  <p className="text-xs text-slate-400 truncate max-w-[200px]">{roleModalUser.fullName}</p>
                 </div>
               </div>
               <button
                 onClick={() => setRoleModalUser(null)}
                 className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 cursor-pointer"
+                aria-label="Close"
               >
                 <FaXmark className="text-base" />
               </button>
             </div>
 
-            <form onSubmit={handleRoleChangeSubmit} className="mt-5 space-y-4">
+            <form onSubmit={handleRoleChangeSubmit} className="mt-4 space-y-4">
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   Select Role Level
                 </label>
 
-                <div className="space-y-2.5">
+                <div className="space-y-2 sm:space-y-2.5">
                   {[
                     {
                       id: 'team_member',
@@ -616,7 +617,7 @@ const TeamMembers = () => {
                     <label
                       key={roleOpt.id}
                       onClick={() => setSelectedNewRole(roleOpt.id)}
-                      className={`flex items-start gap-3 p-3.5 rounded-2xl border cursor-pointer transition-all ${selectedNewRole === roleOpt.id
+                      className={`flex items-start gap-3 p-3 sm:p-3.5 rounded-2xl border cursor-pointer transition-all ${selectedNewRole === roleOpt.id
                         ? 'border-orange-500 bg-orange-50/40 ring-2 ring-orange-500/20'
                         : 'border-slate-200 hover:bg-slate-50'
                         }`}
@@ -641,20 +642,20 @@ const TeamMembers = () => {
                 </div>
               </div>
 
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+              <div className="pt-3 sm:pt-4 flex items-center justify-end gap-2.5 sm:gap-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setRoleModalUser(null)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer min-h-[42px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={roleSubmitting}
-                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer"
+                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer min-h-[42px]"
                 >
-                  {roleSubmitting ? 'Updating...' : 'Save Role Changes'}
+                  {roleSubmitting ? 'Updating...' : 'Save Changes'}
                 </button>
               </div>
             </form>
@@ -665,8 +666,8 @@ const TeamMembers = () => {
 
       {/* 2. DELETE CONFIRMATION MODAL */}
       {deleteModalUser && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
 
             <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center text-xl mx-auto mb-4">
               <FaTrashCan />
@@ -686,7 +687,7 @@ const TeamMembers = () => {
               <button
                 type="button"
                 onClick={() => setDeleteModalUser(null)}
-                className="w-1/2 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer"
+                className="w-1/2 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer min-h-[42px]"
               >
                 Cancel
               </button>
@@ -694,7 +695,7 @@ const TeamMembers = () => {
                 type="button"
                 onClick={handleDeleteSubmit}
                 disabled={deleteSubmitting}
-                className="w-1/2 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-red-600/20 disabled:opacity-50 cursor-pointer"
+                className="w-1/2 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-red-600/20 disabled:opacity-50 cursor-pointer min-h-[42px]"
               >
                 {deleteSubmitting ? 'Removing...' : 'Confirm Remove'}
               </button>
@@ -706,22 +707,23 @@ const TeamMembers = () => {
 
       {/* 3. ADD TEAM MEMBER MODAL (Admin Only) */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200 max-h-[92vh] overflow-y-auto">
 
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-100">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-orange-50 text-orange-600 rounded-xl">
-                  <FaUserPlus className="text-lg" />
+                  <FaUserPlus className="text-base sm:text-lg" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900">Add New Team Member</h3>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">Add New Team Member</h3>
                   <p className="text-xs text-slate-400">Register a new minister or follow-up worker</p>
                 </div>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
                 className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 cursor-pointer"
+                aria-label="Close"
               >
                 <FaXmark className="text-base" />
               </button>
@@ -745,7 +747,7 @@ const TeamMembers = () => {
                   placeholder="e.g. Sister Grace Johnson"
                   value={newMemberData.fullName}
                   onChange={(e) => setNewMemberData({ ...newMemberData, fullName: e.target.value })}
-                  className="w-full h-10 rounded-xl border border-slate-200 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  className="w-full h-11 rounded-xl border border-slate-200 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                 />
               </div>
 
@@ -759,7 +761,7 @@ const TeamMembers = () => {
                   placeholder="worker@hgbcinfluencers.org"
                   value={newMemberData.email}
                   onChange={(e) => setNewMemberData({ ...newMemberData, email: e.target.value })}
-                  className="w-full h-10 rounded-xl border border-slate-200 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  className="w-full h-11 rounded-xl border border-slate-200 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                 />
               </div>
 
@@ -770,7 +772,7 @@ const TeamMembers = () => {
                 <select
                   value={newMemberData.role}
                   onChange={(e) => setNewMemberData({ ...newMemberData, role: e.target.value })}
-                  className="w-full h-10 rounded-xl border border-slate-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white"
+                  className="w-full h-11 rounded-xl border border-slate-200 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white"
                 >
                   <option value="team_member">Team Member (Standard)</option>
                   <option value="pastor">Pastor / Minister</option>
@@ -788,23 +790,23 @@ const TeamMembers = () => {
                   placeholder="••••••••"
                   value={newMemberData.password}
                   onChange={(e) => setNewMemberData({ ...newMemberData, password: e.target.value })}
-                  className="w-full h-10 rounded-xl border border-slate-200 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  className="w-full h-11 rounded-xl border border-slate-200 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                 />
                 <span className="text-[11px] text-slate-400">Minimum 6 characters</span>
               </div>
 
-              <div className="pt-4 flex items-center justify-end gap-3 border-t border-slate-100">
+              <div className="pt-3 sm:pt-4 flex items-center justify-end gap-2.5 sm:gap-3 border-t border-slate-100">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer min-h-[42px]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addMemberSubmitting}
-                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer"
+                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer min-h-[42px]"
                 >
                   {addMemberSubmitting ? 'Creating...' : 'Create Account'}
                 </button>

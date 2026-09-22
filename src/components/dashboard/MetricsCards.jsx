@@ -65,66 +65,66 @@ const MetricsCards = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
       {/* Total Submissions */}
-      <div className="group flex flex-col items-start p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-default">
-        <div className="p-3 bg-gray-50 rounded-lg group-hover:bg-blue-50 transition-colors duration-300 mb-4">
-          <FaFileImport className="text-blue-600 text-4xl" />
+      <div className="group flex flex-col items-start p-4 sm:p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+        <div className="p-2.5 sm:p-3 bg-blue-50 text-blue-600 rounded-xl mb-3 sm:mb-4">
+          <FaFileImport className="text-2xl sm:text-3xl" />
         </div>
-        <div className="space-y-1">
-          <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider">
+        <div className="space-y-0.5 sm:space-y-1">
+          <h3 className="text-slate-500 text-xs sm:text-sm font-semibold uppercase tracking-wider">
             Total Submissions
           </h3>
-          <p className="text-gray-900 text-3xl font-extrabold tracking-tight">
+          <p className="text-slate-900 text-2xl sm:text-3xl font-extrabold tracking-tight">
             {loading ? "..." : metrics.totalSubmissions}
           </p>
         </div>
       </div>
 
       {/* Daily Submissions */}
-      <div className="group flex flex-col items-start p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-default">
-        <div className="p-3 bg-gray-50 rounded-lg group-hover:bg-green-50 transition-colors duration-300 mb-4">
-          <FaCalendarDay className="text-green-600 text-4xl" />
+      <div className="group flex flex-col items-start p-4 sm:p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+        <div className="p-2.5 sm:p-3 bg-green-50 text-green-600 rounded-xl mb-3 sm:mb-4">
+          <FaCalendarDay className="text-2xl sm:text-3xl" />
         </div>
-        <div className="space-y-1">
-          <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider">
-            Daily Submission
+        <div className="space-y-0.5 sm:space-y-1">
+          <h3 className="text-slate-500 text-xs sm:text-sm font-semibold uppercase tracking-wider">
+            Daily Submissions
           </h3>
-          <p className="text-gray-900 text-3xl font-extrabold tracking-tight">
+          <p className="text-slate-900 text-2xl sm:text-3xl font-extrabold tracking-tight">
             {loading ? "..." : metrics.dailySubmissions}
           </p>
         </div>
       </div>
 
       {/* Followed Up */}
-      <div className="group flex flex-col items-start p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-default">
-        <div className="p-3 bg-gray-50 rounded-lg group-hover:bg-purple-50 transition-colors duration-300 mb-4">
-          <FaUserCheck className="text-purple-600 text-4xl" />
+      <div className="group flex flex-col items-start p-4 sm:p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+        <div className="p-2.5 sm:p-3 bg-purple-50 text-purple-600 rounded-xl mb-3 sm:mb-4">
+          <FaUserCheck className="text-2xl sm:text-3xl" />
         </div>
-        <div className="space-y-1">
-          <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider">
+        <div className="space-y-0.5 sm:space-y-1">
+          <h3 className="text-slate-500 text-xs sm:text-sm font-semibold uppercase tracking-wider">
             Followed Up
           </h3>
-          <p className="text-gray-900 text-3xl font-extrabold tracking-tight">
+          <p className="text-slate-900 text-2xl sm:text-3xl font-extrabold tracking-tight">
             {loading ? "..." : metrics.followedUp}
           </p>
         </div>
       </div>
 
       {/* Discovery Sources */}
-      <div className="group flex flex-col items-start p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-default">
-        <div className="p-3 bg-gray-50 rounded-lg group-hover:bg-orange-50 transition-colors duration-300 mb-4">
-          <FaShareNodes className="text-orange-600 text-4xl" />
+      <div className="group flex flex-col items-start p-4 sm:p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+        <div className="p-2.5 sm:p-3 bg-orange-50 text-orange-600 rounded-xl mb-3 sm:mb-4">
+          <FaShareNodes className="text-2xl sm:text-3xl" />
         </div>
-        <div className="space-y-1">
-          <h3 className="text-gray-500 text-sm font-semibold uppercase tracking-wider">
+        <div className="space-y-0.5 sm:space-y-1">
+          <h3 className="text-slate-500 text-xs sm:text-sm font-semibold uppercase tracking-wider">
             Discovery Sources
           </h3>
-          <div className="flex space-x-1 items-center">
-            <p className="text-gray-900 text-xl font-semibold truncate max-w-[140px]" title={metrics.topDiscoverySource}>
+          <div className="flex space-x-1.5 items-baseline">
+            <p className="text-slate-700 text-base sm:text-lg font-bold capitalize truncate max-w-[140px]" title={metrics.topDiscoverySource}>
               {loading ? "..." : metrics.topDiscoverySource}:
             </p>
-            <p className="text-gray-900 text-3xl font-extrabold tracking-tight">
+            <p className="text-slate-900 text-2xl sm:text-3xl font-extrabold tracking-tight">
               {loading ? "" : metrics.topDiscoveryCount}
             </p>
           </div>

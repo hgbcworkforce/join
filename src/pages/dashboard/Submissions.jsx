@@ -234,17 +234,17 @@ const Submissions = () => {
       )}
 
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Submissions</h2>
-          <p className="text-slate-500 mt-1">Manage and review all incoming first timer and guest registrations.</p>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Submissions</h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Manage and review all incoming first timer and guest registrations.</p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
           <button
             onClick={handleManualRefresh}
             disabled={isRefreshing}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-sm font-semibold transition-all shadow-sm cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3.5 sm:px-4 py-2.5 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm cursor-pointer min-h-[42px]"
           >
             <FaRotate className={`text-xs ${isRefreshing ? 'animate-spin text-orange-600' : ''}`} />
             <span>{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
@@ -254,7 +254,7 @@ const Submissions = () => {
           <button 
             onClick={handleExportCSV}
             disabled={isExporting}
-            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer min-h-[42px]"
           >
             <FaFileExport className="text-xs" /> 
             <span>{isExporting ? "Exporting..." : "Export CSV"}</span>
@@ -263,10 +263,10 @@ const Submissions = () => {
       </div>
 
       {/* Quick Follow-up Status Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1.5 scrollbar-thin">
         <button
           onClick={() => { setFollowUpFilter(""); setCurrentPage(1); }}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+          className={`shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
             followUpFilter === ""
               ? 'bg-slate-900 text-white shadow-sm'
               : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -277,7 +277,7 @@ const Submissions = () => {
 
         <button
           onClick={() => { setFollowUpFilter("pending"); setCurrentPage(1); }}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+          className={`shrink-0 flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
             followUpFilter === "pending"
               ? 'bg-amber-600 text-white shadow-sm'
               : 'bg-white border border-slate-200 text-amber-700 hover:bg-amber-50'
@@ -289,7 +289,7 @@ const Submissions = () => {
 
         <button
           onClick={() => { setFollowUpFilter("contacted"); setCurrentPage(1); }}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+          className={`shrink-0 flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
             followUpFilter === "contacted"
               ? 'bg-emerald-600 text-white shadow-sm'
               : 'bg-white border border-slate-200 text-emerald-700 hover:bg-emerald-50'
@@ -301,7 +301,7 @@ const Submissions = () => {
       </div>
 
       {/* Polished Search & Actions Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
         <div className="relative w-full md:w-80 group">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <FaMagnifyingGlass className="text-slate-400 group-focus-within:text-orange-600 transition-colors" />
@@ -310,24 +310,24 @@ const Submissions = () => {
             type="text"
             value={searchTerm}
             onChange={handleSearchChange}
-            placeholder="Search by name, email or phone..."
+            placeholder="Search name, email or phone..."
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-600/20 focus:border-orange-600 transition-all shadow-sm"
           />
         </div>
 
-        <div className="flex items-center gap-3 relative">
+        <div className="flex items-center gap-3 relative self-start md:self-auto">
           {/* Category Filter Dropdown */}
           <div className="relative">
             <button 
               onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-              className={`flex items-center justify-center gap-2 px-4 py-2.5 bg-white border ${statusFilter ? 'border-orange-500 text-orange-600 bg-orange-50/50' : 'border-slate-200 text-slate-600'} rounded-xl text-sm font-semibold hover:bg-slate-50 transition-all cursor-pointer`}
+              className={`flex items-center justify-center gap-2 px-4 py-2.5 bg-white border ${statusFilter ? 'border-orange-500 text-orange-600 bg-orange-50/50' : 'border-slate-200 text-slate-600'} rounded-xl text-xs sm:text-sm font-semibold hover:bg-slate-50 transition-all cursor-pointer min-h-[42px]`}
             >
               <FaFilter className="text-xs" /> 
               <span>{statusFilter ? `Category: ${statusFilter}` : 'Filter Category'}</span>
             </button>
 
             {showFilterDropdown && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-slate-200 rounded-2xl shadow-xl z-30 py-2">
+              <div className="absolute left-0 md:left-auto md:right-0 mt-2 w-48 bg-white border border-slate-200 rounded-2xl shadow-xl z-30 py-2">
                 <button
                   onClick={() => { setStatusFilter(""); setShowFilterDropdown(false); setCurrentPage(1); }}
                   className={`w-full text-left px-4 py-2 text-xs font-semibold hover:bg-slate-50 ${!statusFilter ? 'text-orange-600 font-bold' : 'text-slate-600'}`}
@@ -359,18 +359,18 @@ const Submissions = () => {
       </div>
 
       {/* Table Container */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
         <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-200">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full min-w-[780px] text-left border-collapse">
             <thead>
               <tr className="bg-slate-50/70 border-b border-slate-100">
-                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Guest Name</th>
-                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Gender / DOB</th>
-                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Contact Info</th>
-                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Category / Occupation</th>
-                <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center">Follow-up Status</th>
+                <th className="px-4 sm:px-6 py-3.5 sm:py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Guest Name</th>
+                <th className="px-4 sm:px-6 py-3.5 sm:py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Gender / DOB</th>
+                <th className="px-4 sm:px-6 py-3.5 sm:py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Contact Info</th>
+                <th className="px-4 sm:px-6 py-3.5 sm:py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest">Category / Occupation</th>
+                <th className="px-4 sm:px-6 py-3.5 sm:py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-center">Follow-up Status</th>
                 {isAdmin && (
-                  <th className="px-6 py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-right">Admin Actions</th>
+                  <th className="px-4 sm:px-6 py-3.5 sm:py-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest text-right">Admin Actions</th>
                 )}
               </tr>
             </thead>
@@ -379,7 +379,7 @@ const Submissions = () => {
               {loading ? (
                 [...Array(6)].map((_, i) => (
                   <tr key={i} className="animate-pulse">
-                    <td colSpan={isAdmin ? 6 : 5} className="px-6 py-4">
+                    <td colSpan={isAdmin ? 6 : 5} className="px-4 sm:px-6 py-4">
                       <div className="h-9 bg-slate-100 rounded-xl w-full" />
                     </td>
                   </tr>
@@ -397,9 +397,9 @@ const Submissions = () => {
                       onClick={() => setSelectedSubmission(submission)}
                     >
                       {/* Name & Avatar */}
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-3.5 sm:py-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-10 w-10 shrink-0 rounded-xl bg-orange-50 text-orange-600 border border-orange-100 flex items-center justify-center font-bold text-xs group-hover:bg-orange-600 group-hover:text-white transition-all duration-300">
+                          <div className="h-9 w-9 sm:h-10 sm:w-10 shrink-0 rounded-xl bg-orange-50 text-orange-600 border border-orange-100 flex items-center justify-center font-bold text-xs group-hover:bg-orange-600 group-hover:text-white transition-all duration-300">
                             {getInitials(submission?.fullName)}
                           </div>
                           <div>
@@ -414,7 +414,7 @@ const Submissions = () => {
                       </td>
 
                       {/* Gender & DOB */}
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-3.5 sm:py-4">
                         <div className="flex flex-col">
                           <span className="text-sm font-medium text-slate-700 capitalize">{submission?.gender || '---'}</span>
                           <span className="text-xs text-slate-400 font-mono tracking-tighter">{submission?.dateOfBirth || "---"}</span>
@@ -422,7 +422,7 @@ const Submissions = () => {
                       </td>
 
                       {/* Contact Info */}
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-3.5 sm:py-4">
                         <div className="flex flex-col">
                           <span className="text-sm font-medium text-slate-700 flex items-center gap-1">
                             <FaPhone className="text-[10px] text-slate-400" />
@@ -436,7 +436,7 @@ const Submissions = () => {
                       </td>
 
                       {/* Category Details */}
-                      <td className="px-6 py-4">
+                      <td className="px-4 sm:px-6 py-3.5 sm:py-4">
                         <div className="flex flex-col">
                           <span className="text-sm font-medium text-slate-700 truncate max-w-[170px]">
                             {submission?.studentFaculty || submission?.professionalOrganization || submission?.professionalOccupation || submission?.otherStatus || '---'}
@@ -448,7 +448,7 @@ const Submissions = () => {
                       </td>
 
                       {/* Follow-up Status */}
-                      <td className="px-6 py-4 text-center">
+                      <td className="px-4 sm:px-6 py-3.5 sm:py-4 text-center">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full border transition-all ${
                           isFollowed
                             ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
@@ -470,14 +470,14 @@ const Submissions = () => {
 
                       {/* Admin Actions */}
                       {isAdmin && (
-                        <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
+                        <td className="px-4 sm:px-6 py-3.5 sm:py-4 text-right" onClick={(e) => e.stopPropagation()}>
                           <div className="flex items-center justify-end gap-2">
                             
                             {/* Toggle Followed Button */}
                             <button
                               onClick={(e) => handleToggleFollowed(submission, e)}
                               disabled={isUpdating}
-                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-sm cursor-pointer ${
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all border shadow-sm cursor-pointer min-h-[36px] ${
                                 isFollowed
                                   ? 'bg-white text-slate-600 border-slate-200 hover:bg-amber-50 hover:text-amber-700 hover:border-amber-300'
                                   : 'bg-emerald-600 text-white border-emerald-600 hover:bg-emerald-700 shadow-emerald-500/10'
@@ -498,7 +498,7 @@ const Submissions = () => {
                                 e.stopPropagation();
                                 setDeleteModalSubmission(submission);
                               }}
-                              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl border border-slate-200 hover:border-red-200 transition-all cursor-pointer shadow-sm"
+                              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl border border-slate-200 hover:border-red-200 transition-all cursor-pointer shadow-sm min-h-[36px] min-w-[36px] flex items-center justify-center"
                               title="Delete Submission"
                             >
                               <FaTrashCan className="text-xs" />
@@ -512,7 +512,7 @@ const Submissions = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan={isAdmin ? 6 : 5} className="text-center py-20 text-slate-400 font-medium">
+                  <td colSpan={isAdmin ? 6 : 5} className="text-center py-16 text-slate-400 font-medium text-sm">
                     No submissions matching your filter criteria.
                   </td>
                 </tr>
@@ -521,27 +521,27 @@ const Submissions = () => {
           </table>
         </div>
 
-        {/* Improved Pagination Footer */}
-        <div className="px-6 py-4 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
-          <p className="text-sm text-slate-500 font-medium">
-            Showing <span className="text-slate-900">{data.length > 0 ? (currentPage - 1) * recordsPerPage + 1 : 0}</span> to <span className="text-slate-900">{Math.min(currentPage * recordsPerPage, totalRecords)}</span> of <span className="text-slate-900">{totalRecords}</span> results
+        {/* Improved Pagination Footer (Responsive Stack on Mobile) */}
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 bg-slate-50/60 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs sm:text-sm text-slate-500 font-medium text-center sm:text-left">
+            Showing <span className="text-slate-900 font-bold">{data.length > 0 ? (currentPage - 1) * recordsPerPage + 1 : 0}</span> to <span className="text-slate-900 font-bold">{Math.min(currentPage * recordsPerPage, totalRecords)}</span> of <span className="text-slate-900 font-bold">{totalRecords}</span> results
           </p>
           
           <div className="flex items-center gap-2">
             <button
               disabled={currentPage === 1}
               onClick={(e) => { e.stopPropagation(); setCurrentPage(prev => Math.max(1, prev - 1)); }}
-              className="p-2 border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm cursor-pointer"
+              className="p-2.5 border border-slate-200 rounded-xl bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm cursor-pointer min-h-[38px] min-w-[38px] flex items-center justify-center"
             >
               <FaChevronLeft className="text-xs" />
             </button>
             
             <div className="flex items-center gap-1">
-               <span className="px-4 py-1.5 bg-orange-600 text-white rounded-lg text-sm font-bold shadow-sm shadow-orange-200">
+               <span className="px-3.5 py-1.5 bg-orange-600 text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm shadow-orange-200">
                 {currentPage}
                </span>
-               <span className="text-slate-400 px-1 text-sm font-medium">of</span>
-               <span className="px-4 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-lg text-sm font-bold">
+               <span className="text-slate-400 px-1 text-xs sm:text-sm font-medium">of</span>
+               <span className="px-3.5 py-1.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs sm:text-sm font-bold">
                 {Math.max(nPages, 1)}
                </span>
             </div>
@@ -549,7 +549,7 @@ const Submissions = () => {
             <button
               disabled={currentPage >= nPages}
               onClick={(e) => { e.stopPropagation(); setCurrentPage(prev => prev + 1); }}
-              className="p-2 border border-slate-200 rounded-lg bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm cursor-pointer"
+              className="p-2.5 border border-slate-200 rounded-xl bg-white text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white transition-all shadow-sm cursor-pointer min-h-[38px] min-w-[38px] flex items-center justify-center"
             >
               <FaChevronRight className="text-xs" />
             </button>
@@ -570,8 +570,8 @@ const Submissions = () => {
 
       {/* 2. Admin Delete Confirmation Modal */}
       {deleteModalSubmission && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-3 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
             
             <div className="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center text-xl mx-auto mb-4">
               <FaTrashCan />
@@ -591,7 +591,7 @@ const Submissions = () => {
               <button
                 type="button"
                 onClick={() => setDeleteModalSubmission(null)}
-                className="w-1/2 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer"
+                className="w-1/2 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition-all cursor-pointer min-h-[42px]"
               >
                 Cancel
               </button>
@@ -599,7 +599,7 @@ const Submissions = () => {
                 type="button"
                 onClick={handleDeleteSubmission}
                 disabled={Boolean(deletingId)}
-                className="w-1/2 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-red-600/20 disabled:opacity-50 cursor-pointer"
+                className="w-1/2 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-red-600/20 disabled:opacity-50 cursor-pointer min-h-[42px]"
               >
                 {deletingId ? 'Deleting...' : 'Confirm Delete'}
               </button>

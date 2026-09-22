@@ -185,50 +185,49 @@ const Profile = () => {
 
       {/* Page Header */}
       <div>
-        <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Account Settings</h2>
-        <p className="text-slate-500 text-sm mt-1">Manage your personal details, email address, and account security.</p>
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Account Settings</h2>
+        <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Manage your personal details, email address, and account security.</p>
       </div>
 
       {/* Profile Overview Card */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
 
         {/* Banner */}
-        <div className="h-32 bg-white relative"></div>
+        <div className="h-24 sm:h-32 bg-slate-100 relative"></div>
 
         {/* Profile Info Bar */}
-        <div className="px-6 md:px-8 pb-6 relative flex flex-col md:flex-row md:items-end justify-between gap-4 -mt-14">
+        <div className="px-4 sm:px-8 pb-5 sm:pb-6 relative flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-14">
 
-          <div className="flex items-end gap-4">
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full bg-purple-600 text-white flex items-center justify-center font-extrabold text-2xl shadow-lg ring-4 ring-white">
+          <div className="flex items-end gap-3.5 sm:gap-4">
+            <div className="relative shrink-0">
+              <div className="h-20 w-20 sm:h-24 sm:w-24 rounded-full bg-purple-600 text-white flex items-center justify-center font-extrabold text-xl sm:text-2xl shadow-lg ring-4 ring-white">
                 {getInitials(user?.fullName || profileData.fullName)}
               </div>
-              <span className="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
+              <span className="absolute bottom-1 right-1 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
             </div>
 
-            <div className="mb-1">
-              <div className="flex flex-col  gap-2.5 flex-wrap">
-                <div className='flex flex-col mb-2'>
-                  <h3 className="text-xl md:text-2xl font-bold text-slate-900 leading-tight">
+            <div className="mb-0.5 sm:mb-1 min-w-0">
+              <div className="flex flex-col gap-1.5 sm:gap-2">
+                <div>
+                  <h3 className="text-lg sm:text-2xl font-bold text-slate-900 leading-tight truncate">
                     {user?.fullName || 'Team Member'}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
-                    <FaEnvelope className="text-slate-400" />
-                    <span>{user?.email || 'No email associated'}</span>
+                  <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5 truncate">
+                    <FaEnvelope className="text-slate-400 shrink-0" />
+                    <span className="truncate">{user?.email || 'No email associated'}</span>
                   </p>
                 </div>
 
-                <span className={`w-fit inline-flex items-center gap-1 px-3 py-0.5 rounded-full text-xs font-bold border ${getRoleBadgeStyle(user?.role)}`}>
+                <span className={`w-fit inline-flex items-center gap-1 px-2.5 sm:px-3 py-0.5 rounded-full text-[11px] sm:text-xs font-bold border ${getRoleBadgeStyle(user?.role)}`}>
                   <FaShieldHalved className="text-[10px]" />
                   {formatRole(user?.role)}
                 </span>
               </div>
-
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-100 self-start md:self-auto">
-            <FaCalendarDays className="text-slate-400" />
+          <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-slate-100 self-start sm:self-auto">
+            <FaCalendarDays className="text-slate-400 shrink-0" />
             <span>Member since: <strong>{memberSince}</strong></span>
           </div>
 
@@ -237,25 +236,25 @@ const Profile = () => {
       </div>
 
       {/* Main Form Sections (2 Columns on large screens) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
 
         {/* Left 2 Columns: Personal Details & Password */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-2 space-y-6 sm:space-y-8">
 
           {/* Card 1: Personal Details */}
-          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+          <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6">
 
-            <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-              <div className="p-2.5 bg-orange-50 text-orange-600 rounded-xl">
-                <FaUser className="text-lg" />
+            <div className="flex items-center gap-3 pb-3 sm:pb-4 border-b border-slate-100">
+              <div className="p-2 sm:p-2.5 bg-orange-50 text-orange-600 rounded-xl">
+                <FaUser className="text-base sm:text-lg" />
               </div>
               <div>
-                <h4 className="text-lg font-bold text-slate-900">Personal Information</h4>
+                <h4 className="text-base sm:text-lg font-bold text-slate-900">Personal Information</h4>
                 <p className="text-xs text-slate-400">Update your name and communication email address</p>
               </div>
             </div>
 
-            <form onSubmit={handleProfileSubmit} className="space-y-5">
+            <form onSubmit={handleProfileSubmit} className="space-y-4 sm:space-y-5">
 
               <div className="space-y-1.5">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -299,7 +298,7 @@ const Profile = () => {
                 <button
                   type="submit"
                   disabled={savingProfile}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-600/20 disabled:opacity-50 cursor-pointer min-h-[44px]"
                 >
                   <FaFloppyDisk className="text-sm" />
                   <span>{savingProfile ? 'Saving Changes...' : 'Save Profile Changes'}</span>
@@ -311,19 +310,19 @@ const Profile = () => {
           </div>
 
           {/* Card 2: Security & Password */}
-          <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+          <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6">
 
-            <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-              <div className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
-                <FaLock className="text-lg" />
+            <div className="flex items-center gap-3 pb-3 sm:pb-4 border-b border-slate-100">
+              <div className="p-2 sm:p-2.5 bg-indigo-50 text-indigo-600 rounded-xl">
+                <FaLock className="text-base sm:text-lg" />
               </div>
               <div>
-                <h4 className="text-lg font-bold text-slate-900">Security & Password</h4>
+                <h4 className="text-base sm:text-lg font-bold text-slate-900">Security & Password</h4>
                 <p className="text-xs text-slate-400">Change your password to keep your workforce account secure</p>
               </div>
             </div>
 
-            <form onSubmit={handlePasswordSubmit} className="space-y-5">
+            <form onSubmit={handlePasswordSubmit} className="space-y-4 sm:space-y-5">
 
               {/* Current Password */}
               <div className="space-y-1.5">
@@ -411,7 +410,7 @@ const Profile = () => {
                 <button
                   type="submit"
                   disabled={savingPassword}
-                  className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-indigo-600/20 disabled:opacity-50 cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold transition-all shadow-md shadow-indigo-600/20 disabled:opacity-50 cursor-pointer min-h-[44px]"
                 >
                   <FaKey className="text-sm" />
                   <span>{savingPassword ? 'Updating Password...' : 'Update Password'}</span>
@@ -425,10 +424,10 @@ const Profile = () => {
         </div>
 
         {/* Right 1 Column: Account Permissions & Info */}
-        <div className="space-y-6">
+        <div className="space-y-5 sm:space-y-6">
 
           {/* Permissions Overview Card */}
-          <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div className="bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm space-y-4">
 
             <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
               <FaShieldHalved className="text-orange-600 text-lg" />
@@ -478,7 +477,7 @@ const Profile = () => {
           </div>
 
           {/* System Info Box */}
-          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 text-xs space-y-3 text-slate-500">
+          <div className="bg-slate-50 p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 text-xs space-y-3 text-slate-500">
             <div className="flex items-center gap-2 font-bold text-slate-700">
               <FaIdCard className="text-slate-400 text-sm" />
               <span>Session Details</span>
