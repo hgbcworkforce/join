@@ -31,3 +31,24 @@ export const authenticateToken = (req, res, next) => {
     });
   }
 };
+
+export const requireAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized: Authentication required.",
+    });
+  }
+
+  const role = req.user.role?.toLowerCase();
+  const isAdmin = role === "admin" || role === "super_admin" || role === "pastor";
+
+  if (!isAdmin) {
+    return res.status(403).json({
+      success: false,
+      message: "Forbidden: You do not have permission to perform this administrative action.",
+    });
+  }
+
+  next();
+};

@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import { useState } from 'react';
 import API from '../../api/axios';
+import { useAuth } from '../../context/AuthContext';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const Signin = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,9 +20,10 @@ const Signin = () => {
     try {
       const response = await API.post('/auth/signin', { email, password });
       const token = response.data?.data?.accessToken || response.data?.data?.token;
+      const user = response.data?.data?.user;
 
       if (token) {
-        localStorage.setItem("token", token);
+        login(token, user);
         navigate('/dashboard'); 
       } else {
         setErrorMessage("Authentication token was not returned by server.");

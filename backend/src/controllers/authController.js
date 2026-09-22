@@ -81,7 +81,14 @@ export const signup = async (req, res, next) => {
       data: {
         accessToken: token,
         token: token,
-        user: newUser,
+        user: {
+          id: newUser.id,
+          fullName: newUser.full_name,
+          full_name: newUser.full_name,
+          email: newUser.email,
+          role: newUser.role,
+          createdAt: newUser.created_at,
+        },
       },
     });
   } catch (error) {
@@ -140,6 +147,7 @@ export const signin = async (req, res, next) => {
     const userProfile = {
       id: user.id,
       fullName: user.full_name,
+      full_name: user.full_name,
       email: user.email,
       role: user.role,
       createdAt: user.created_at,
@@ -168,6 +176,18 @@ export const getMe = async (req, res, next) => {
       .single();
 
     if (error || !user) {
+      if (req.user?.id) {
+        return res.status(200).json({
+          success: true,
+          data: {
+            id: req.user.id,
+            fullName: req.user.name || "Team Member",
+            full_name: req.user.name || "Team Member",
+            email: req.user.email,
+            role: req.user.role || "team_member",
+          },
+        });
+      }
       return res.status(404).json({
         success: false,
         message: "User not found.",
@@ -179,10 +199,143 @@ export const getMe = async (req, res, next) => {
       data: {
         id: user.id,
         fullName: user.full_name,
+        full_name: user.full_name,
         email: user.email,
         role: user.role,
         createdAt: user.created_at,
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateProfileSchema = z.object({
+  fullName: z.string().min(2, "Full name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+});
+
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Current password is required"),
+  newPassword: z.string().min(6, "New password must be at least 6 characters"),
+});
+
+export const updateProfile = async (req, res, next) => {
+  try {
+    const validated = updateProfileSchema.safeParse(req.body);
+    if (!validated.success) {
+      return res.status(400).json({
+        success: false,
+        message: validated.error.errors[0].message,
+      });
+    }
+
+    const { fullName, email } = validated.data;
+    const cleanEmail = email.toLowerCase().trim();
+
+    // Check if new email is already used by another user
+    const { data: existingUser } = await supabase
+      .from("users")
+      .select("id")
+      .eq("email", cleanEmail)
+      .neq("id", req.user.id)
+      .single();
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "An account with this email address already exists.",
+      });
+    }
+
+    // Update user profile in Supabase
+    const { data: updatedUser, error: updateError } = await supabase
+      .from("users")
+      .update({
+        full_name: fullName.trim(),
+        email: cleanEmail,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", req.user.id)
+      .select("id, full_name, email, role, created_at, updated_at")
+      .single();
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      data: {
+        id: updatedUser.id,
+        fullName: updatedUser.full_name,
+        full_name: updatedUser.full_name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        createdAt: updatedUser.created_at,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changePassword = async (req, res, next) => {
+  try {
+    const validated = changePasswordSchema.safeParse(req.body);
+    if (!validated.success) {
+      return res.status(400).json({
+        success: false,
+        message: validated.error.errors[0].message,
+      });
+    }
+
+    const { currentPassword, newPassword } = validated.data;
+
+    // Fetch existing user with password hash
+    const { data: user, error: findError } = await supabase
+      .from("users")
+      .select("id, password_hash")
+      .eq("id", req.user.id)
+      .single();
+
+    if (findError || !user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    // Verify current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Current password is incorrect.",
+      });
+    }
+
+    // Hash new password
+    const salt = await bcrypt.genSalt(10);
+    const new_password_hash = await bcrypt.hash(newPassword, salt);
+
+    // Update password in database
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({
+        password_hash: new_password_hash,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", req.user.id);
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Password changed successfully.",
     });
   } catch (error) {
     next(error);

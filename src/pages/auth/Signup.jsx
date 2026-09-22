@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
 import API from '../../api/axios';
+import { useAuth } from '../../context/AuthContext';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -41,8 +43,9 @@ const Signup = () => {
       });
 
       const token = response.data?.data?.accessToken || response.data?.data?.token;
+      const user = response.data?.data?.user;
       if (token) {
-        localStorage.setItem("token", token);
+        login(token, user);
         setSuccessMessage("Account created successfully! Redirecting...");
         setTimeout(() => {
           navigate('/dashboard');
