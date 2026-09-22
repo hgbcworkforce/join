@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import firstTimerRoutes from "./routes/firstTimerRoutes.js";
 import metricsRoutes from "./routes/metricsRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
@@ -55,6 +56,9 @@ app.use("/first-timers", firstTimerRoutes);
 
 app.use("/api/metrics", metricsRoutes);
 app.use("/metrics", metricsRoutes);
+
+app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
 
 // Fallback for undefined routes
 app.use((req, res) => {
